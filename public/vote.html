@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Voting Page</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header>
+    <nav class="main-navbar">
+      <div class="navbar-brand">
+        <img src="/Assets/logo.jpg" alt="Company Logo" class="logo" />
+        <span class="company-name">Braintree Company</span>
+      </div>
+      <ul class="navbarLinks">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/voting.html">Voting</a></li>
+      </ul>
+      <a href="#" class="navCta">Register Now</a>
+      <div class="navbar-Hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </nav>
+
+    <div class="nav-dropdown">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Voting</a></li>
+        <li><a href="#" class="cta-btn">Register Now</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Voting Section -->
+  <main>
+    <section class="vote-section">
+      <h1>Vote for Your Favorite School</h1>
+      <p class="note">Note: Each vote costs N100</p>
+
+      <div class="voteschoolContainer">
+        <h3>Registered Schools</h3>
+        <div class="votesearchContainer">
+          <form id="form">
+            <input type="search" id="query" name="q" placeholder="Search..." />
+          </form>
+          <button class="search-icon">
+            <img src="/Assets/search-icon.png" alt="Search" />
+          </button>
+        </div>
+      </div>
+
+      <select id="schoolSelect"></select>
+      <div id="voteSection"></div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="/Assets/logo.jpg" alt="Company Logo" class="logo" />
+        <span>Braintree Company</span>
+      </div>
+      <div class="footer-links">
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <a href="#" class="social-icon"><img src="/Assets/facebook-icon.png" alt="Facebook" /></a>
+        <a href="#" class="social-icon"><img src="/Assets/twitter-icon.png" alt="Twitter" /></a>
+        <a href="#" class="social-icon"><img src="/Assets/instagram-icon.png" alt="Instagram" /></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Braintree Academy. All rights reserved.</p>
+    </div>
+  </footer>
+
+<!-- Voting Logic -->
+<script>
+  let schools = [];
+
+  async function loadSchools() {
+    const res = await fetch('/api/schools');
+    schools = await res.json();
+
+    const select = document.getElementById('schoolSelect');
+    const voteSection = document.getElementById('voteSection');
+    select.innerHTML = '';
+
+    schools.forEach(school => {
+      const option = document.createElement('option');
+      option.value = school._id;
+      option.text = `${school.schoolName} (${school.votes} votes)`;
+      select.appendChild(option);
+    });
+
+    select.addEventListener('change', () => {
+      const selected = schools.find(s => s._id === select.value);
+      voteSection.innerHTML = `
+        <h3>${selected.schoolName}</h3>
+        <p>Votes: <span id="vote-count">${selected.votes}</span></p>
+        <button onclick="simulatePayAndVote('${selected._id}')">Pay & Vote (Simulated)</button>
+      `;
+    });
+
+    if (schools.length > 0) {
+      select.value = schools[0]._id;
+      select.dispatchEvent(new Event('change'));
+    }
+  }
+
+  async function simulatePayAndVote(schoolId) {
+    alert('Redirecting to PayPal... (simulated)');
+    setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/vote/${schoolId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ schoolId })
+        });
+
+        const data = await res.json();
+        if (data.message === 'Vote submitted') {
+          alert('✅ Payment successful. Vote counted!');
+          const voteCountElem = document.getElementById('vote-count');
+          voteCountElem.textContent = parseInt(voteCountElem.textContent) + 1;
+
+          const selectedOption = [...document.getElementById('schoolSelect').options].find(o => o.value === schoolId);
+          const school = schools.find(s => s._id === schoolId);
+          school.votes++;
+          selectedOption.text = `${school.schoolName} (${school.votes} votes)`;
+        } else {
+          alert('❌ Voting failed.');
+        }
+      } catch (err) {
+        alert('❌ Network error.');
+        console.error(err);
+      }
+    }, 1200);
+  }
+
+  loadSchools();
+</script>
+
+</body>
+</html>
