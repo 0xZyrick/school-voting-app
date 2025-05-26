@@ -1,158 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Voting Page</title>
-  <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="./assets/styles.css">
 </head>
 
 <body>
-  <!-- Header Section -->
+  <!-- Hero Section -->
   <header>
     <nav class="main-navbar">
-      <div class="navbar-brand">
-        <img src="/Assets/logo.jpg" alt="Company Logo" class="logo" />
-        <span class="company-name">Braintree Company</span>
-      </div>
-      <ul class="navbarLinks">
-        <li><a href="/index.html">Home</a></li>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/voting.html">Voting</a></li>
+        <!-- Logo -->
+        <div class="navbar-brand">
+          <img src="/Assets/logo.jpg" alt="Company Logo" class="logo">
+          <span class="company-name">Braintree Company</span>
+        </div>
+        <!-- Navigation Links -->
+        <ul class="navbarLinks">
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/voting.html">Voting</a></li>
       </ul>
-      <a href="#" class="navCta">Register Now</a>
-      <div class="navbar-Hamburger">
-        <span></span><span></span><span></span>
-      </div>
+
+        <!-- Call-to-Action Button -->
+        <a href="#" class="navCta">Register Now</a>
+
+        <!-- Hamburger Menu -->
+        <div class="navbar-Hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </nav>
 
+    <!-- Dropdown Menu for Mobile -->
     <div class="nav-dropdown">
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Voting</a></li>
-        <li><a href="#" class="cta-btn">Register Now</a></li>
-      </ul>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Voting</a></li>
+            <li><a href="#" class="cta-btn">Register Now</a></li>
+        </ul>
     </div>
-  </header>
+</header>
 
-  <!-- Voting Section -->
   <main>
-    <section class="vote-section">
-      <h1>Vote for Your Favorite School</h1>
+    <div class="voteHero">
+      <h1>Vote for Your Favorite Contestants</h1>
       <p class="note">Note: Each vote costs N100</p>
+    </div>
 
-      <div class="voteschoolContainer">
-        <h3>Registered Schools</h3>
-        <div class="votesearchContainer">
-          <form id="form">
-            <input type="search" id="query" name="q" placeholder="Search..." />
-          </form>
-          <button class="search-icon">
-            <img src="/Assets/search-icon.png" alt="Search" />
-          </button>
+    <div class="voteschoolContainer">
+      <h3>Registered Schools<h3>
+      <div class="votesearchContainer">
+        <form action="search" id="form">
+          <input type="search" id="query" name="q" placeholder="Search...">
+        </form>
+        <button class="search-icon">
+          <img src="search-icon.png" alt="Search">
+      </div>
+    </div>
+
+    <div class="theschool-dropdown">
+      <button class="school-name" onclick="toggleMenu()">
+        School Name
+      </button>
+      <div class="dropdown-menu">
+        <div class="menu-item">
+          <div class="name">John Doe</div>
+          <div class="competition">Drama</div>
+          <div class="vote-container">
+            <button class="vote-btn" onclick="castVote()">Vote</button>
+            <div class="vote-count" id="voteCount">Votes: 0</div>
+          </div>
         </div>
       </div>
-
-      <select id="schoolSelect"></select>
-      <div id="voteSection"></div>
-    </section>
+    </div>
   </main>
-
-  <!-- Footer -->
+  
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-logo">
-        <img src="/Assets/logo.jpg" alt="Company Logo" class="logo" />
+        <img src="/Assets/logo.jpg" alt="Company Logo" class="logo">
         <span>Braintree Company</span>
-      </div>
-      <div class="footer-links">
-        <ul>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Services</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-social">
-        <a href="#" class="social-icon"><img src="/Assets/facebook-icon.png" alt="Facebook" /></a>
-        <a href="#" class="social-icon"><img src="/Assets/twitter-icon.png" alt="Twitter" /></a>
-        <a href="#" class="social-icon"><img src="/Assets/instagram-icon.png" alt="Instagram" /></a>
-      </div>
+    </div>
+        <div class="footer-links">
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-social">
+            <a href="#" class="social-icon"><img src="facebook-icon.png" alt="Facebook"></a>
+            <a href="#" class="social-icon"><img src="twitter-icon.png" alt="Twitter"></a>
+            <a href="#" class="social-icon"><img src="instagram-icon.png" alt="Instagram"></a>
+        </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2024 Braintree Academy. All rights reserved.</p>
+        <p>&copy; 2024 Braintree Academy. All rights reserved.</p>
     </div>
-  </footer>
+</footer>
 
-<!-- Voting Logic -->
-<script>
-  let schools = [];
+  <!-- ================= SCRIPT ================= -->
 
-  async function loadSchools() {
-    const res = await fetch('/api/schools');
-    schools = await res.json();
+<script src="script.js"></script>
 
-    const select = document.getElementById('schoolSelect');
-    const voteSection = document.getElementById('voteSection');
-    select.innerHTML = '';
+  <script>
+    let schools = [];
 
-    schools.forEach(school => {
-      const option = document.createElement('option');
-      option.value = school._id;
-      option.text = `${school.schoolName} (${school.votes} votes)`;
-      select.appendChild(option);
-    });
+    async function loadSchools() {
+      const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/schools');
+      schools = await res.json();
 
-    select.addEventListener('change', () => {
-      const selected = schools.find(s => s._id === select.value);
-      voteSection.innerHTML = `
-        <h3>${selected.schoolName}</h3>
-        <p>Votes: <span id="vote-count">${selected.votes}</span></p>
-        <button onclick="simulatePayAndVote('${selected._id}')">Pay & Vote (Simulated)</button>
-      `;
-    });
+      const select = document.getElementById('schoolSelect');
+      const voteSection = document.getElementById('voteSection');
+      select.innerHTML = '';
 
-    if (schools.length > 0) {
-      select.value = schools[0]._id;
-      select.dispatchEvent(new Event('change'));
-    }
-  }
+      schools.forEach(school => {
+        const option = document.createElement('option');
+        option.value = school._id;
+        option.text = `${school.schoolName} (${school.votes} votes)`;
+        select.appendChild(option);
+      });
 
-  async function simulatePayAndVote(schoolId) {
-    alert('Redirecting to PayPal... (simulated)');
-    setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/vote/${schoolId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ schoolId })
-        });
+      select.addEventListener('change', () => {
+        const selected = schools.find(s => s._id === select.value);
+        voteSection.innerHTML = `
+          <h3 class="vote__school-name">${selected.schoolName}</h3>
+          <p class="vote__count">Votes: <span id="vote-count">${selected.votes}</span></p>
+          <button class="vote__button" onclick="simulatePayAndVote('${selected._id}')">Pay & Vote (Simulated)</button>
+        `;
+      });
 
-        const data = await res.json();
-        if (data.message === 'Vote submitted') {
-          alert('✅ Payment successful. Vote counted!');
-          const voteCountElem = document.getElementById('vote-count');
-          voteCountElem.textContent = parseInt(voteCountElem.textContent) + 1;
-
-          const selectedOption = [...document.getElementById('schoolSelect').options].find(o => o.value === schoolId);
-          const school = schools.find(s => s._id === schoolId);
-          school.votes++;
-          selectedOption.text = `${school.schoolName} (${school.votes} votes)`;
-        } else {
-          alert('❌ Voting failed.');
-        }
-      } catch (err) {
-        alert('❌ Network error.');
-        console.error(err);
+      if (schools.length > 0) {
+        select.value = schools[0]._id;
+        select.dispatchEvent(new Event('change'));
       }
-    }, 1200);
-  }
+    }
 
-  loadSchools();
-</script>
+    async function simulatePayAndVote(schoolId) {
+      alert('Redirecting to PayPal... (simulated)');
+      setTimeout(async () => {
+        try {
+          const res = await fetch(`https://school-voting-backend-5ika.onrender.com/api/vote/${schoolId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ schoolId })
+          });
 
+          const data = await res.json();
+          if (data.message === 'Vote submitted') {
+            alert('✅ Payment successful. Vote counted!');
+            const voteCountElem = document.getElementById('vote-count');
+            voteCountElem.textContent = parseInt(voteCountElem.textContent) + 1;
+
+            const selectedOption = [...document.getElementById('schoolSelect').options].find(o => o.value === schoolId);
+            const school = schools.find(s => s._id === schoolId);
+            school.votes++;
+            selectedOption.text = `${school.schoolName} (${school.votes} votes)`;
+          } else {
+            alert('❌ Voting failed.');
+          }
+        } catch (err) {
+          alert('❌ Network error.');
+          console.error(err);
+        }
+      }, 1200);
+    }
+
+    loadSchools();
+  </script>
 </body>
+
 </html>
+

@@ -24,9 +24,9 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/Assets', express.static(path.join(__dirname, '../public/Assets')));
 
 // ====== API Routes ======
-app.use('/api/register', registerRoute);
-app.use('/api/vote', voteRoute); // Changed to /api/vote for clarity
-app.use('/api/schools', schoolRoutes);
+app.use('https://school-voting-backend-5ika.onrender.com/api/register', registerRoute);
+app.use('https://school-voting-backend-5ika.onrender.com/api/vote', voteRoute); // Changed to /api/vote for clarity
+app.use('https://school-voting-backend-5ika.onrender.com/api/schools', schoolRoutes);
 
 // ====== MongoDB Connection & Server Start ======
 const PORT = process.env.PORT || 5000;
