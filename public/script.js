@@ -1,3 +1,5 @@
+const BACKEND_URL = "https://school-voting-backend-5ika.onrender.com";
+
 const hamburger = document.querySelector('.navbar-Hamburger');
 const dropdown = document.querySelector('.nav-dropdown');
 
@@ -5,7 +7,13 @@ hamburger.addEventListener('click', () => {
     dropdown.classList.toggle('active');
 });
 
+fetch(`${BACKEND_URL}/api/schools`)
+  .then(res => res.json())
+  .then(data => {
+    // do something
+  });
 
+  
 // VOTE JAVASCRIPT
 // Function to toggle the dropdown menu
 // if (window.location.pathname.includes('.vote.html')) {
