@@ -78,8 +78,7 @@
       </div>
     </div>
 
-    <select id="schoolSelect"></select>
-    <div id="voteSection"></div>
+    <div id="voteSectionContainer"></div>
 
   </main>
   
@@ -113,69 +112,61 @@
 <script src="script.js"></script>
 
   <script>
-    let schools = [];
+  async function loadSchools() {
+    const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/schools');
+    const schools = await res.json();
 
-    async function loadSchools() {
-      const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/schools');
-      schools = await res.json();
+    const container = document.getElementById('voteSectionContainer');
+    container.innerHTML = '';
 
-      const select = document.getElementById('schoolSelect');
-      const voteSection = document.getElementById('voteSection');
-      select.innerHTML = '';
+    schools.forEach(school => {
+      const dropdown = document.createElement('div');
+      dropdown.className = 'school-dropdown';
 
-      schools.forEach(school => {
-        const option = document.createElement('option');
-        option.value = school._id;
-        option.text = `${school.schoolName} (${school.votes} votes)`;
-        select.appendChild(option);
-      });
+      dropdown.innerHTML = `
+        <button class="dropdown-toggle" onclick="this.nextElementSibling.classList.toggle('show')">
+          ${school.schoolName}
+        </button>
+        <div class="dropdown-content">
+          <p><strong>Coordinator:</strong> ${school.coordinator}</p>
+          <p><strong>Phone:</strong> ${school.phone}</p>
+          <p><strong>Category:</strong> ${school.contestCategory}</p>
+          <p><strong>Votes:</strong> <span id="vote-count-${school._id}">${school.votes}</span></p>
+          <button onclick="voteForSchool('${school._id}')">Vote</button>
+        </div>
+      `;
 
-      select.addEventListener('change', () => {
-        const selected = schools.find(s => s._id === select.value);
-        voteSection.innerHTML = `
-          <h3 class="vote__school-name">${selected.schoolName}</h3>
-          <p class="vote__count">Votes: <span id="vote-count">${selected.votes}</span></p>
-          <button class="vote__button" onclick="simulatePayAndVote('${selected._id}')">Pay & Vote (Simulated)</button>
-        `;
-      });
+      container.appendChild(dropdown);
+    });
+  }
 
-      if (schools.length > 0) {
-        select.value = schools[0]._id;
-        select.dispatchEvent(new Event('change'));
-      }
-    }
+  async function voteForSchool(schoolId) {
+    alert('Redirecting to payment... (simulated)');
+    setTimeout(async () => {
+      try {
+        const res = await fetch(`https://school-voting-backend-5ika.onrender.com/api/vote/${schoolId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ schoolId })
+        });
 
-    async function simulatePayAndVote(schoolId) {
-      alert('Redirecting to PayPal... (simulated)');
-      setTimeout(async () => {
-        try {
-          const res = await fetch(`https://school-voting-backend-5ika.onrender.com/api/vote/${schoolId}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ schoolId })
-          });
-
-          const data = await res.json();
-          if (data.message === 'Vote submitted') {
-            alert('✅ Payment successful. Vote counted!');
-            const voteCountElem = document.getElementById('vote-count');
-            voteCountElem.textContent = parseInt(voteCountElem.textContent) + 1;
-
-            const selectedOption = [...document.getElementById('schoolSelect').options].find(o => o.value === schoolId);
-            const school = schools.find(s => s._id === schoolId);
-            school.votes++;
-            selectedOption.text = `${school.schoolName} (${school.votes} votes)`;
-          } else {
-            alert('❌ Voting failed.');
-          }
-        } catch (err) {
-          alert('❌ Network error.');
-          console.error(err);
+        const data = await res.json();
+        if (res.ok) {
+          const voteCountElem = document.getElementById(`vote-count-${schoolId}`);
+          voteCountElem.textContent = parseInt(voteCountElem.textContent) + 1;
+          alert('✅ Vote counted!');
+        } else {
+          alert('❌ Failed to vote: ' + data.message);
         }
-      }, 1200);
-    }
+      } catch (err) {
+        alert('❌ Error submitting vote.');
+        console.error(err);
+      }
+    }, 1200);
+  }
 
-    loadSchools();
+  window.onload = loadSchools;
+
   </script>
 </body>
 

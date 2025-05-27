@@ -4,318 +4,126 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Register School</title>
-
   <link rel="stylesheet" href="./assets/styles.css">
-   
-  <!-- <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #fff;
-      padding: 40px 20px;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .subtext {
-      color: #444;
-      margin-bottom: 2rem;
-    }
-
-    .info-box {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-      gap: 2rem;
-    }
-
-    .info-text {
-      max-width: 50%;
-    }
-
-    .info-text p {
-      margin: 0.5rem 0;
-      font-size: 1rem;
-    }
-
-    .info-text strong {
-      display: inline-block;
-      min-width: 140px;
-    }
-
-    .upload-box {
-      border: 2px dashed #ccc;
-      padding: 40px;
-      text-align: center;
-      width: 100%;
-      max-width: 350px;
-      align-self: center;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    .upload-box:hover {
-      border-color: #888;
-    }
-
-    .upload-box input {
-      display: none;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .form-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .form-group {
-      flex: 1 1 48%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .form-group input,
-    .form-group select {
-      padding: 14px 20px;
-      border-radius: 30px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-      outline: none;
-      transition: border 0.2s;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus {
-      border-color: #333;
-    }
-
-    .submit-btn {
-      background: #008000;
-      color: #fff;
-      border: none;
-      padding: 14px 30px;
-      font-size: 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-      width: fit-content;
-      align-self: center;
-    }
-
-    .submit-btn:hover {
-      background: #006600;
-    }
-
-    @media (max-width: 768px) {
-      .info-text {
-        max-width: 100%;
-      }
-
-      .form-group {
-        flex: 1 1 100%;
-      }
-
-      .upload-box {
-        margin: auto;
-      }
-    }
-  </style>  -->
 </head>
 
 <body>
   <header>
-        <nav class="main-navbar">
-          <!-- Logo -->
-          <div class="navbar-brand">
-            <img src="/Assets/logo.jpg" alt="Company Logo" class="logo">
-            <span class="company-name">Braintree Company</span>
-          </div>
-          <!-- Navigation Links -->
-          <ul class="navbarLinks">
-            <li><a href="/index.html">Home</a></li>
-            <li><a href="/about.html">About</a></li>
-            <li><a href="/vote.html">Voting</a></li>
-        </ul>
-
-          <!-- Call-to-Action Button -->
-          <a href="#" class="navCta">Register Now</a>
-
-          <!-- Hamburger Menu -->
-          <div class="navbar-Hamburger">
-              <span></span>
-              <span></span>
-              <span></span>
-          </div>
-      </nav>
-
-      <!-- Dropdown Menu for Mobile -->
-      <div class="nav-dropdown">
-          <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Voting</a></li>
-              <li><a href="#" class="cta-btn">Register Now</a></li>
-          </ul>
+    <nav class="main-navbar">
+      <div class="navbar-brand">
+        <img src="/Assets/logo.jpg" alt="Company Logo" class="logo">
+        <span class="company-name">Braintree Company</span>
       </div>
+      <ul class="navbarLinks">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/vote.html">Voting</a></li>
+      </ul>
+      <a href="#" class="navCta">Register Now</a>
+      <div class="navbar-Hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </nav>
+
+    <div class="nav-dropdown">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Voting</a></li>
+        <li><a href="#" class="cta-btn">Register Now</a></li>
+      </ul>
+    </div>
   </header>
 
-<main>
-  <div class="container">
-    <h2>Register your School</h2>
-    <p class="subtext">Fill in the form below and make payment to complete your registration</p>
+  <main>
+    <div class="container">
+      <h2>Register your School</h2>
+      <p class="subtext">Fill in the form below and make payment to complete your registration</p>
 
-    <div class="info-box">
-      <div class="info-text">
-        <p><strong>Registration Fee:</strong> <b>₦5000</b> per Contestant</p>
-        <p><strong>Account Number:</strong> 0052554753</p>
-        <p><strong>Account Name:</strong> Braintree Academy</p>
-        <p><strong>Bank:</strong> Paypal</p>
+      <div class="info-box">
+        <div class="info-text">
+          <p><strong>Registration Fee:</strong> <b>₦5000</b> per Contestant</p>
+          <p><strong>Account Number:</strong> 0052554753</p>
+          <p><strong>Account Name:</strong> Braintree Academy</p>
+          <p><strong>Bank:</strong> Paypal</p>
+        </div>
+
+        <label class="upload-box">
+          <div>
+            <img src="https://www.svgrepo.com/show/508784/upload-cloud.svg" alt="upload" width="50" />
+            <p>Upload your proof of payment here</p>
+          </div>
+          <input type="file" id="payment-proof" required />
+        </label>
       </div>
 
-      <label class="upload-box">
-        <div>
-          <img src="https://www.svgrepo.com/show/508784/upload-cloud.svg" alt="upload" width="50" />
-          <p>Upload your proof of payment here</p>
+      <form id="registrationForm">
+        <div class="form-row">
+          <div class="form-group">
+            <input type="text" id="schoolName" placeholder="Name of school" required />
+          </div>
+          <div class="form-group">
+            <input type="email" id="schoolEmail" placeholder="Email Address" required />
+          </div>
         </div>
-        <input type="file" id="payment-proof" required />
-      </label>
+
+        <div class="form-row">
+          <div class="form-group">
+            <input type="text" id="location" placeholder="Local Government Area" required />
+          </div>
+          <div class="form-group">
+            <input type="text" id="contestant1" placeholder="Name of Contestant" required />
+          </div>
+        </div>
+
+        <!-- Additional contestant inputs can be added later as needed -->
+
+        <div class="form-row">
+          <div class="form-group">
+            <input type="text" placeholder="Class" />
+          </div>
+          <div class="form-group">
+            <select>
+              <option value="">Select Activity</option>
+              <option value="debate">Debate</option>
+              <option value="quiz">Quiz</option>
+              <option value="spelling">Spelling Bee</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="responseMessage" style="margin: 10px 0; font-weight: bold;"></div>
+
+        <button type="submit" class="submit-btn">Submit Registration</button>
+      </form>
     </div>
+  </main>
 
-    <form id="registrationForm">
-      <div class="form-row">
-        <div class="form-group">
-          <input type="text" placeholder="Name of school" required />
-        </div>
-        <div class="form-group">
-          <input type="text" placeholder="Name of Contestant" required />
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <input type="text" placeholder="Local Government Area" required />
-        </div>
-        <div class="form-group">
-          <select required>
-            <option value="">Select Activity</option>
-            <option value="debate">Debate</option>
-            <option value="quiz">Quiz</option>
-            <option value="spelling">Spelling Bee</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <input type="number" placeholder="Age" required />
-        </div>
-        <div class="form-group">
-          <input type="text" placeholder="Name of Contestant" required />
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <input type="text" placeholder="Class" required />
-        </div>
-        <div class="form-group">
-          <select required>
-            <option value="">Select Activity</option>
-            <option value="debate">Debate</option>
-            <option value="quiz">Quiz</option>
-            <option value="spelling">Spelling Bee</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Additional Contestants -->
-      <div class="form-row">
-        <div class="form-group">
-          <input type="text" placeholder="Name of Contestant" required />
-        </div>
-        <div class="form-group">
-          <select required>
-            <option value="">Select Activity</option>
-            <option value="debate">Debate</option>
-            <option value="quiz">Quiz</option>
-            <option value="spelling">Spelling Bee</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <input type="text" placeholder="Name of Contestant" required />
-        </div>
-        <div class="form-group">
-          <select required>
-            <option value="">Select Activity</option>
-            <option value="debate">Debate</option>
-            <option value="quiz">Quiz</option>
-            <option value="spelling">Spelling Bee</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <input type="text" placeholder="Name of Contestant" required />
-        </div>
-        <div class="form-group">
-          <select required>
-            <option value="">Select Activity</option>
-            <option value="debate">Debate</option>
-            <option value="quiz">Quiz</option>
-            <option value="spelling">Spelling Bee</option>
-          </select>
-        </div>
-      </div>
-
-      <button type="submit" class="submit-btn">Submit Registration</button>
-    </form>
-  </div>
-</main>
-
-
-    <footer class="footer">
+  <footer class="footer">
     <div class="footer-content">
       <div class="footer-logo">
         <img src="/Assets/logo.jpg" alt="Company Logo" class="logo">
         <span>Braintree Company</span>
-    </div>
-        <div class="footer-links">
-            <ul>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-        <div class="footer-social">
-            <a href="#" class="social-icon"><img src="facebook-icon.png" alt="Facebook"></a>
-            <a href="#" class="social-icon"><img src="twitter-icon.png" alt="Twitter"></a>
-            <a href="#" class="social-icon"><img src="instagram-icon.png" alt="Instagram"></a>
-        </div>
+      </div>
+      <div class="footer-links">
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <a href="#" class="social-icon"><img src="facebook-icon.png" alt="Facebook"></a>
+        <a href="#" class="social-icon"><img src="twitter-icon.png" alt="Twitter"></a>
+        <a href="#" class="social-icon"><img src="instagram-icon.png" alt="Instagram"></a>
+      </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; 2024 Braintree Academy. All rights reserved.</p>
+      <p>&copy; 2024 Braintree Academy. All rights reserved.</p>
     </div>
-</footer>
+  </footer>
 
-  <script src="script.js"></script>
+  <script src="./register.js"></script>
 </body>
 </html>
