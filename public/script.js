@@ -1,63 +1,74 @@
 const BACKEND_URL = "https://school-voting-backend-5ika.onrender.com";
 
+// ✅ Navbar hamburger menu
 const hamburger = document.querySelector('.navbar-Hamburger');
 const dropdown = document.querySelector('.nav-dropdown');
 
-hamburger.addEventListener('click', () => {
+if (hamburger && dropdown) {
+  hamburger.addEventListener('click', () => {
     dropdown.classList.toggle('active');
-});
+  });
+}
 
+// ✅ Fetch all schools initially — only if needed
 fetch(`${BACKEND_URL}/api/schools`)
   .then(res => res.json())
   .then(data => {
-    // do something
+    // you can populate dropdown or log here
+    // console.log(data);
   });
 
-  
-// VOTE JAVASCRIPT
-// Function to toggle the dropdown menu
-// if (window.location.pathname.includes('.vote.html')) {
+// ✅ Dropdown toggle function (used in vote.html)
 function toggleMenu() {
-    const menu = document.querySelector(".dropdown-menu");
+  const menu = document.querySelector(".dropdown-menu");
+  if (menu) {
     menu.style.display = (menu.style.display === "block") ? "none" : "block";
   }
-  
-//   search bar toggle
-document.querySelector('.search-icon').addEventListener('click', function () {
-    const searchBar = document.querySelector('#form');
+}
+
+// ✅ Search bar toggle
+const searchIcon = document.querySelector('.search-icon');
+const searchBar = document.querySelector('#form');
+
+if (searchIcon && searchBar) {
+  searchIcon.addEventListener('click', function () {
     if (searchBar.style.display === 'block' || searchBar.style.display === '') {
       searchBar.style.display = 'none';
     } else {
       searchBar.style.display = 'block';
     }
   });
+}
 
-
-// Only run this on register.html
+// ✅ Only run this on register.html
 if (window.location.pathname.includes('register.html')) {
-  document.getElementById('registrationForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
+  const registrationForm = document.getElementById('registrationForm');
+  const responseMessage = document.getElementById('responseMessage');
 
-    const data = {
-      schoolName: document.getElementById('schoolName').value,
-      email: document.getElementById('schoolEmail').value,
-      location: document.getElementById('location').value
-    };
+  if (registrationForm && responseMessage) {
+    registrationForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-    try {
-      const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
+      const data = {
+        schoolName: document.getElementById('schoolName')?.value,
+        email: document.getElementById('schoolEmail')?.value,
+        location: document.getElementById('location')?.value
+      };
 
-      const result = await res.json();
-      document.getElementById('responseMessage').textContent = result.message || 'Registered!';
-      document.getElementById('registrationForm').reset();
-    } catch (error) {
-      document.getElementById('responseMessage').textContent = 'Error submitting registration.';
-    }
-  });
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        responseMessage.textContent = result.message || 'Registered!';
+        registrationForm.reset();
+      } catch (error) {
+        responseMessage.textContent = 'Error submitting registration.';
+        console.error(error);
+      }
+    });
+  }
 }
