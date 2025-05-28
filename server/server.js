@@ -13,8 +13,6 @@ const app = express();
 
 
 // ====== Middlewares ======
-const cors = require('cors');
-
 app.use(cors({
   origin: ['https://braintreearena.com', 'https://www.braintreearena.com'],
   methods: ['GET', 'POST'],
