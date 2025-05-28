@@ -13,7 +13,14 @@ const app = express();
 
 
 // ====== Middlewares ======
-app.use(cors());
+const cors = require('cors');
+
+app.use(cors({
+  origin: ['https://braintreearena.com', 'https://www.braintreearena.com'],
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
+
 app.use(express.json());
 
 // ====== Static Files ======
@@ -21,7 +28,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Serve Assets folder (images like logo, icons, etc.)
-app.use('/Assets', express.static(path.join(__dirname, '../public/Assets')));
+app.use('/Assets', express.static(path.join(__dirname, '../public/assets/Assets')));
 
 // ====== API Routes ======
 app.use('/api/register', registerRoute);

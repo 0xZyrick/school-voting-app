@@ -111,7 +111,7 @@
       background: #006600;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .info-text {
         max-width: 100%;
       }
@@ -200,50 +200,47 @@
         </div>
 
         <!-- Additional contestant inputs can be added later as needed -->
+          <div class="form-row">
+            <div class="form-group">
+              <input type="text" id="contestant1" placeholder="Contestant 1" required />
+            </div>
+            <div class="form-group">
+              <select id="activity1" required>
+                <option value="">Select Activity</option>
+                <option value="debate">Debate</option>
+                <option value="quiz">Quiz</option>
+                <option value="spelling">Spelling Bee</option>
+              </select>
+            </div>
+          </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <input type="text" id="contestant1" placeholder="Contestant 1" required />
+          <div class="form-row">
+            <div class="form-group">
+              <input type="text" id="contestant2" placeholder="Contestant 2" required />
+            </div>
+            <div class="form-group">
+              <select id="activity2" required>
+                <option value="">Select Activity</option>
+                <option value="debate">Debate</option>
+                <option value="quiz">Quiz</option>
+                <option value="spelling">Spelling Bee</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <select>
-              <option value="">Select Activity</option>
-              <option value="debate">Debate</option>
-              <option value="quiz">Quiz</option>
-              <option value="spelling">Spelling Bee</option>
-            </select>
-          </div>
-        </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <input type="text" id="contestant2" placeholder="Contestant 2" required />
-          </div>
-          <div class="form-group">
-            <select>
-              <option value="">Select Activity</option>
-              <option value="debate">Debate</option>
-              <option value="quiz">Quiz</option>
-              <option value="spelling">Spelling Bee</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <input type="text" id="contestant3" placeholder="Contestant 3" required />
-          </div>
-          <div class="form-group">
-            <select>
-              <option value="">Select Activity</option>
-              <option value="debate">Debate</option>
-              <option value="quiz">Quiz</option>
-              <option value="spelling">Spelling Bee</option>
-            </select>
-          </div>
-        </div>
-        
-
+          <div class="form-row">
+            <div class="form-group">
+              <input type="text" id="contestant3" placeholder="Contestant 3" required />
+            </div>
+            <div class="form-group">
+              <select id="activity3" required>
+                <option value="">Select Activity</option>
+                <option value="debate">Debate</option>
+                <option value="quiz">Quiz</option>
+                <option value="spelling">Spelling Bee</option>
+              </select>
+            </div>
+          </div>  
         <div id="responseMessage" style="margin: 10px 0; font-weight: bold;"></div>
 
         <button type="submit" class="submit-btn">Submit Registration</button>

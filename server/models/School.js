@@ -4,6 +4,12 @@ const schoolSchema = new mongoose.Schema({
   schoolName: String,
   email: String,
   location: String,
+  contestants: [
+  {
+    name: String,
+    activity: String
+  }
+],
   votes: {
     type: Number,
     default: 0

@@ -52,7 +52,21 @@ if (window.location.pathname.includes('register.html')) {
       const data = {
         schoolName: document.getElementById('schoolName')?.value,
         email: document.getElementById('schoolEmail')?.value,
-        location: document.getElementById('location')?.value
+        location: document.getElementById('location')?.value,
+        contestants: [
+          {
+            name: document.getElementById('contestant1')?.value,
+            activity: document.getElementById('activity1')?.value
+          },
+          {
+            name: document.getElementById('contestant2')?.value,
+            activity: document.getElementById('activity2')?.value
+          },
+          {
+            name: document.getElementById('contestant3')?.value,
+            activity: document.getElementById('activity3')?.value
+          }
+        ]
       };
 
       try {
