@@ -124,6 +124,37 @@
         margin: auto;
       }
     }
+
+       .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 400px;
+      margin: auto;
+    }
+
+    .close {
+      float: right;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
   </style>
 
   <link rel="stylesheet" href="./assets/styles.css">
@@ -241,10 +272,21 @@
               </select>
             </div>
           </div>  
+
+        <button type="button" id="payButton">Simulate PayPal Payment</button>
+        <button type="submit" id="submitBtn" disabled>Register School</button>
+
         <div id="responseMessage" style="margin: 10px 0; font-weight: bold;"></div>
 
-        <button type="submit" class="submit-btn">Submit Registration</button>
       </form>
+              <!-- Confirmation Modal -->
+        <div id="confirmationModal" class="modal">
+          <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Registration Successful 🎉</h2>
+            <p>Redirecting to voting page...</p>
+          </div>
+        </div>
     </div>
   </main>
 
@@ -271,6 +313,80 @@
             <p>&copy; 2024 My Website. All rights reserved.</p>
         </div>
 </footer>
+
+      <script>
+      document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('registrationForm');
+      const payButton = document.getElementById('payButton');
+      const submitBtn = document.getElementById('submitBtn');
+      const confirmationModal = document.getElementById('confirmationModal');
+      const closeModal = document.getElementById('closeModal');
+
+      // Disable submit initially
+      submitBtn.disabled = true;
+
+      // Simulate PayPal Payment
+      payButton.addEventListener('click', () => {
+        payButton.textContent = "Processing Payment...";
+        payButton.disabled = true;
+
+        setTimeout(() => {
+          payButton.textContent = "Payment Complete ✅";
+          submitBtn.disabled = false;
+        }, 2000);
+      });
+
+      // Form submission
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = {
+          schoolName: document.getElementById('schoolName').value,
+          state: document.getElementById('state').value,
+          lga: document.getElementById('lga').value,
+          schoolCategory: document.getElementById('schoolCategory').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          contestant1: document.getElementById('contestant1').value,
+          contestant2: document.getElementById('contestant2').value,
+          contestant3: document.getElementById('contestant3').value,
+          activity1: document.getElementById('activity1').value,
+          activity2: document.getElementById('activity2').value,
+          activity3: document.getElementById('activity3').value,
+          proof: document.getElementById('proof').value
+        };
+
+        try {
+          const res = await fetch(`${BACKEND_URL}/api/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+
+          const result = await res.json();
+          console.log("Server response:", result); // Debug line
+
+          if (response.ok) {
+            confirmationModal.style.display = 'flex';
+            setTimeout(() => {
+              confirmationModal.style.display = 'none';
+              window.location.href = '/vote.html';
+            }, 2000);
+          } else {
+            alert('Registration failed. Try again.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Something went wrong.');
+        }
+      });
+
+      // Close modal manually
+      closeModal.addEventListener('click', () => {
+        confirmationModal.style.display = 'none';
+      });
+    });
+  </script>
 
   <script src="./script.js"></script>
 </body>

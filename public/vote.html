@@ -91,8 +91,7 @@
 </footer>
 
   <!-- ================= SCRIPT ================= -->
-
-  <script>
+<script>
   async function loadSchools() {
     const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/schools');
     const schools = await res.json();
@@ -104,16 +103,38 @@
       const dropdown = document.createElement('div');
       dropdown.className = 'school-dropdown';
 
+      const contestants = [
+        { name: school.contestant1, activity: school.activity1 },
+        { name: school.contestant2, activity: school.activity2 },
+        { name: school.contestant3, activity: school.activity3 }
+      ];
+
+      const contestantRows = contestants.map((c, index) => `
+        <tr>
+          <td>${c.name || 'N/A'}</td>
+          <td>${c.activity || 'N/A'}</td>
+          <td>
+            <button onclick="voteForSchool('${school._id}', ${index})">Vote</button><br>
+            <span id="vote-count-${school._id}-${index}">${school.votes}</span>
+          </td>
+        </tr>
+      `).join('');
+
       dropdown.innerHTML = `
-        <button class="dropdown-toggle" onclick="this.nextElementSibling.classList.toggle('show')">
-          ${school.schoolName}
-        </button>
-        <div class="dropdown-content">
-          <p><strong>Coordinator:</strong> ${school.coordinator}</p>
-          <p><strong>Phone:</strong> ${school.phone}</p>
-          <p><strong>Category:</strong> ${school.contestCategory}</p>
-          <p><strong>Votes:</strong> <span id="vote-count-${school._id}">${school.votes}</span></p>
-          <button onclick="voteForSchool('${school._id}')">Vote</button>
+        <div class="school-card">
+          <button class="dropdown-toggle" onclick="toggleDropdown('${school._id}')">
+            ${school.schoolName}
+          </button>
+          <div id="dropdown-${school._id}" class="dropdown-content" style="display: none;">
+            <table class="contestant-table">
+              <thead>
+                <tr><th>Contestant Name</th><th>Activity</th><th>Vote</th></tr>
+              </thead>
+              <tbody>
+                ${contestantRows}
+              </tbody>
+            </table>
+          </div>
         </div>
       `;
 
@@ -121,7 +142,12 @@
     });
   }
 
-  async function voteForSchool(schoolId) {
+  function toggleDropdown(id) {
+    const dropdown = document.getElementById(`dropdown-${id}`);
+    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+  }
+
+  async function voteForSchool(schoolId, contestantIndex) {
     alert('Redirecting to payment... (simulated)');
     setTimeout(async () => {
       try {
@@ -133,8 +159,10 @@
 
         const data = await res.json();
         if (res.ok) {
-          const voteCountElem = document.getElementById(`vote-count-${schoolId}`);
-          voteCountElem.textContent = parseInt(voteCountElem.textContent) + 1;
+          const countElem = document.getElementById(`vote-count-${schoolId}-${contestantIndex}`);
+          if (countElem) {
+            countElem.textContent = parseInt(countElem.textContent) + 1;
+          }
           alert('✅ Vote counted!');
         } else {
           alert('❌ Failed to vote: ' + data.message);
@@ -147,8 +175,7 @@
   }
 
   window.onload = loadSchools;
-
-  </script>
+</script>
 
   <script src="script.js"></script>
 

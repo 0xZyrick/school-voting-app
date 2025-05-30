@@ -4,6 +4,7 @@ const BACKEND_URL = "https://school-voting-backend-5ika.onrender.com";
 const hamburger = document.querySelector('.navbar-Hamburger');
 const dropdown = document.querySelector('.nav-dropdown');
 
+
 if (hamburger && dropdown) {
   hamburger.addEventListener('click', () => {
     dropdown.classList.toggle('active');
@@ -41,65 +42,97 @@ if (searchIcon && searchBar) {
 }
 
 // ✅ Only run this on register.html
-if (window.location.pathname.includes('/register')) {
-    console.log("Form submitted!"); // Debug line
+// if (window.location.pathname.includes('/register')) {
+//     console.log("Form submitted!"); // Debug line
     
-const registrationForm = document.getElementById('registrationForm');
-const responseMessage = document.getElementById('responseMessage');
+// const registrationForm = document.getElementById('registrationForm');
+// const responseMessage = document.getElementById('responseMessage');
 
-console.log("Register script running")
+// console.log("Register script running")
 
-if (registrationForm && responseMessage) {
-  registrationForm.addEventListener('submit', async function (e) {
+// if (registrationForm && responseMessage) {
+//   registrationForm.addEventListener('submit', async function (e) {
 
 
-    e.preventDefault();
-    console.log("Submitting form...");
+//     e.preventDefault();
+//     console.log("Submitting form...");
 
-    const data = {
-      schoolName: document.getElementById('schoolName')?.value,
-      email: document.getElementById('schoolEmail')?.value,
-      location: document.getElementById('location')?.value,
-      studentClass: document.getElementById('studentClass')?.value,
-      contestants: [
-        {
-          name: document.getElementById('contestant1')?.value,
-          activity: document.getElementById('activity1')?.value
-        },
-        {
-          name: document.getElementById('contestant2')?.value,
-          activity: document.getElementById('activity2')?.value
-        },
-        {
-          name: document.getElementById('contestant3')?.value,
-          activity: document.getElementById('activity3')?.value
-        }
-      ]
-    };
+//     const data = {
+//       schoolName: document.getElementById('schoolName')?.value,
+//       email: document.getElementById('schoolEmail')?.value,
+//       location: document.getElementById('location')?.value,
+//       studentClass: document.getElementById('studentClass')?.value,
+//       contestants: [
+//         {
+//           name: document.getElementById('contestant1')?.value,
+//           activity: document.getElementById('activity1')?.value
+//         },
+//         {
+//           name: document.getElementById('contestant2')?.value,
+//           activity: document.getElementById('activity2')?.value
+//         },
+//         {
+//           name: document.getElementById('contestant3')?.value,
+//           activity: document.getElementById('activity3')?.value
+//         }
+//       ]
+//     };
 
-    try {
-      const res = await fetch(`${BACKEND_URL}/api/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
 
-      const result = await res.json();
-      console.log("Server response:", result); // Debug line
+// const payButton = document.getElementById('payButton');
+// const submitBtn = document.getElementById('submitBtn');
 
-      responseMessage.textContent = result.message || 'Registration successful!';
-      responseMessage.style.color = "green";
-      registrationForm.reset();
+// payButton.addEventListener('click', () => {
+//   payButton.textContent = "Processing Payment...";
+//   setTimeout(() => {
+//     payButton.textContent = "Payment Complete ✅";
+//     payButton.disabled = true;
+//     submitBtn.disabled = false;
+//   }, 2000); // simulate a 2-second "payment"
+// });
 
-      // Optional: Redirect after success
-      setTimeout(() => {
-        window.location.href = "./vote.html";
-      }, 2000);
-    } catch (error) {
-      responseMessage.textContent = 'Error submitting registration.';
-      responseMessage.style.color = "red";
-      console.error(error);
-    }
-  });
-}
-}
+
+//     try {
+//       const res = await fetch(`${BACKEND_URL}/api/register`, {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify(data)
+//       });
+
+//       const result = await res.json();
+//       console.log("Server response:", result); // Debug line
+
+//       responseMessage.textContent = result.message || 'Registration successful!';
+//       responseMessage.style.color = "green";
+//       registrationForm.reset();
+
+//       const modal = document.getElementById("confirmationModal");
+//       const closeModal = document.getElementById("closeModal");
+//           if (res.ok) {
+//             responseMessage.textContent = '';
+//             modal.style.display = "block";
+
+//             closeModal.onclick = () => modal.style.display = "none";
+//             window.onclick = (event) => {
+//               if (event.target == modal) modal.style.display = "none";
+//             };
+
+//             setTimeout(() => {
+//               modal.style.display = "none";
+//               window.location.href = "./vote.html";
+//             }, 3000);
+//           }
+
+
+//       // Optional: Redirect after success
+//       setTimeout(() => {
+//         window.location.href = "./vote.html";
+//       }, 2000);
+//     } catch (error) {
+//       responseMessage.textContent = 'Error submitting registration.';
+//       responseMessage.style.color = "red";
+//       console.error(error);
+//     }
+//   });
+// }
+// }
