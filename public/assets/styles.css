@@ -26,7 +26,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px; 
-    border-bottom: 0.1px  solid   #fad6a3;
+    /* border-bottom: 0.1px  solid   #fad6a3; */
 }
 
 .navbar-brand {
@@ -122,7 +122,7 @@ header {
 }
 
 /* Responsive Design */
-@media (max-width: 350px) {
+@media (max-width: 450px) {
     .navbarLinks,
     .navCta {
         display: none; /* Hide links and button */
@@ -344,7 +344,7 @@ h1 {
   }
   
   /* Media query for smaller screens */
-  @media (max-width: 400px) {
+  @media (max-width: 900px) {
     .school-dropdown {
       width: 90%;
     }

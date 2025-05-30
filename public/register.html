@@ -340,20 +340,25 @@
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const formData = {
-          schoolName: document.getElementById('schoolName').value,
-          state: document.getElementById('state').value,
-          lga: document.getElementById('lga').value,
-          schoolCategory: document.getElementById('schoolCategory').value,
-          email: document.getElementById('email').value,
-          phone: document.getElementById('phone').value,
-          contestant1: document.getElementById('contestant1').value,
-          contestant2: document.getElementById('contestant2').value,
-          contestant3: document.getElementById('contestant3').value,
-          activity1: document.getElementById('activity1').value,
-          activity2: document.getElementById('activity2').value,
-          activity3: document.getElementById('activity3').value,
-          proof: document.getElementById('proof').value
+        const data = {
+          schoolName: document.getElementById('schoolName')?.value,
+          email: document.getElementById('schoolEmail')?.value,
+          location: document.getElementById('location')?.value,
+          studentClass: document.getElementById('studentClass')?.value,
+          contestants: [
+            {
+              name: document.getElementById('contestant1')?.value,
+              activity: document.getElementById('activity1')?.value
+            },
+            {
+              name: document.getElementById('contestant2')?.value,
+              activity: document.getElementById('activity2')?.value
+            },
+            {
+              name: document.getElementById('contestant3')?.value,
+              activity: document.getElementById('activity3')?.value
+            }
+          ]
         };
 
         try {
