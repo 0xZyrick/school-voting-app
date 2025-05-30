@@ -41,7 +41,7 @@ if (searchIcon && searchBar) {
 }
 
 // ✅ Only run this on register.html
-if (window.location.pathname.includes('/register.html')) {
+if (window.location.pathname.includes('/register')) {
     console.log("Form submitted!"); // Debug line
     
 const registrationForm = document.getElementById('registrationForm');
