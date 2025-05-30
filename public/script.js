@@ -41,15 +41,20 @@ if (searchIcon && searchBar) {
 }
 
 // ✅ Only run this on register.html
-if (window.location.pathname.includes('register.html')) {
+if (window.location.pathname.includes('/register.html')) {
+    console.log("Form submitted!"); // Debug line
+    
 const registrationForm = document.getElementById('registrationForm');
 const responseMessage = document.getElementById('responseMessage');
 
+console.log("Register script running")
+
 if (registrationForm && responseMessage) {
   registrationForm.addEventListener('submit', async function (e) {
-    console.log("Form submitted!"); // Debug line
+
 
     e.preventDefault();
+    console.log("Submitting form...");
 
     const data = {
       schoolName: document.getElementById('schoolName')?.value,
