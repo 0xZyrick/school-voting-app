@@ -42,7 +42,7 @@ if (searchIcon && searchBar) {
 }
 
 // ✅ Only run this on register.html
-if (window.location.pathname.includes('register.html')) {
+if (window.location.pathname.includes('/register')) {
   const registrationForm = document.getElementById('registrationForm');
   const responseMessage = document.getElementById('responseMessage');
   const payButton = document.getElementById('payButton');
