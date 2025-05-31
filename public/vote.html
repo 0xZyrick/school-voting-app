@@ -6,34 +6,83 @@
   <title>Voting Page</title>
 
   <style>
+    
+  .school-card {
+  width: 100%;
+  max-width: 100%;
+  margin: 1rem 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
     .school-dropdown {
   width: 100%;
   margin: 10px 0;
 }
 
-.dropdown-toggle {
+    .dropdown-toggle {
   width: 100%;
-  height: 80px;
-  font-size: 1.2rem;
+  height: 40px;
+  font-size: 1rem;
   background-color: #f0f0f0;
   border: 2px solid #ccc;
   cursor: pointer;
   padding: 20px;
 }
 
-.dropdown-content {
-  width: 100%;
-  background: #ffffff;
-  padding: 20px;
-  border: 1px solid #ddd;
+    .dropdown-content {
   display: none;
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
-.dropdown-content.show {
+    .dropdown-content.show {
   display: block;
 }
 
+.contestant-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Forces even column width */
+}
+
+.contestant-table th,
+.contestant-table td {
+  text-align: center;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  word-wrap: break-word;
+}
+
+.contestant-table th {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+#voteSectionContainer {
+  width: 100%;
+  padding: 0;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .contestant-table th,
+  .contestant-table td {
+    font-size: 14px;
+    padding: 0.5rem;
+  }
+
+  .dropdown-content {
+    padding: 0.5rem;
+  }
+}
+
   </style>
+
   <link rel="stylesheet" href="./assets/styles.css">
   
 </head>
@@ -134,11 +183,7 @@
       const dropdown = document.createElement('div');
       dropdown.className = 'school-dropdown';
 
-      const contestants = [
-        { name: school.contestant1, activity: school.activity1 },
-        { name: school.contestant2, activity: school.activity2 },
-        { name: school.contestant3, activity: school.activity3 }
-      ];
+      const contestants = school.contestants || [];
 
       const contestantRows = contestants.map((c, index) => `
         <tr>
@@ -146,7 +191,7 @@
           <td>${c.activity || 'N/A'}</td>
           <td>
             <button onclick="voteForSchool('${school._id}', ${index})">Vote</button><br>
-            <span id="vote-count-${school._id}-${index}">${school.votes}</span>
+            <span id="vote-count-${school._id}-${index}">${c.votes || 0}</span>
           </td>
         </tr>
       `).join('');
@@ -185,7 +230,7 @@
         const res = await fetch(`https://school-voting-backend-5ika.onrender.com/api/vote/${schoolId}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ schoolId })
+          body: JSON.stringify({ schoolId, contestantIndex })
         });
 
         const data = await res.json();

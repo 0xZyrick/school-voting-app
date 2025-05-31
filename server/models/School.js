@@ -1,5 +1,3 @@
-const mongoose = require('mongoose');
-
 const schoolSchema = new mongoose.Schema({
   schoolName: String,
   email: String,
@@ -8,7 +6,11 @@ const schoolSchema = new mongoose.Schema({
   contestants: [
     {
       name: String,
-      activity: String
+      activity: String,
+      votes: {
+        type: Number,
+        default: 0
+      }
     }
   ],
   votes: {
