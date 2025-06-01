@@ -6,6 +6,56 @@
   <title>Braintree</title>
 
   <style>
+    /* Fullscreen Overlay */
+.intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #0000004d;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.intro-image {
+  /* width: 100%;
+  height: 100%; */
+  object-fit: cover;
+  position: absolute;
+  /* z-index: -1; */
+  /* top: 0;
+  left: 0; */
+  max-width: 90vw;     /* Don't exceed the screen width */
+  max-height: 90vh;    /* Don't exceed the screen height */
+  width: auto;
+  height: auto;
+  object-fit: contain;  /* Make sure it scales proportionally */
+  position: fixed;      /* If it's an overlay */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;         /* Center it */
+  z-index: -1;        /* Make sure it stays on top */
+}
+
+.close-text {
+  position: relative;
+  color: white;
+  margin-top: 20px;
+  font-size: 20px;
+  text-decoration: underline;
+  cursor: pointer;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 6px;
+}
     .container {
     display: flex;
     justify-content: space-around; /* Adds space between boxes */
@@ -539,6 +589,12 @@
 
 
 <body>
+    <!-- Intro Overlay -->
+<div id="introOverlay" class="intro-overlay">
+  <img src="./assets/Assets/GRAPHICS IMAGE.jpg" alt="Welcome" class="intro-image">
+  <p class="close-text" onclick="closeIntro()">Close</p>
+</div>
+
   <header>
     <nav class="main-navbar">
         <!-- Logo -->
@@ -754,6 +810,24 @@
             <p>&copy; 2024 My Website. All rights reserved.</p>
         </div>
 </footer>
+
+<script>
+
+  function closeIntro() {
+    const overlay = document.getElementById('introOverlay');
+    overlay.style.display = 'none';
+  }
+
+  window.onload = function() {
+  if (!sessionStorage.getItem('visited')) {
+    document.getElementById('introOverlay').style.display = 'flex';
+    sessionStorage.setItem('visited', 'true');
+  } else {
+    document.getElementById('introOverlay').style.display = 'none';
+  }
+};
+
+</script>
 
 </body>
 </html>
