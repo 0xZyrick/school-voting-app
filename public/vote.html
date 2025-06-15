@@ -207,12 +207,12 @@
       dropdown.className = 'school-dropdown';
       const totalVotes = Object.values(school.votes || {}).reduce((acc, val) => acc + val, 0);
 
-    const activityRows = activities.map(activity => `
+    const activityRows = school.activities.map((activity, index) => `
       <tr>
         <td>${activity}</td>
         <td>
           <button onclick="voteForActivity('${school._id}', '${activity}')">Vote</button><br>
-          <span id="vote-count-${school._id}-${activity}">${school.votes[activity]}</span>
+          <span id="vote-count-${school._id}-${index}">${activity.votes || 0}</span>
         </td>
       </tr>
     `).join('');
@@ -224,9 +224,9 @@ dropdown.innerHTML = `
       <span class="school-votes">${totalVotes} Votes</span>
     </div>
 
-    <button class="dropdown-toggle" onclick="toggleDropdown('${school._id}')">
-      Show Activities
-    </button>
+    <div class="dropdown-toggle" onclick="toggleDropdown('${school._id}')">
+      ${school.schoolName}
+    </div>
 
     <div id="dropdown-${school._id}" class="dropdown-content" style="display: none;">
       <table class="contestant-table">
