@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); 
 
 const schoolSchema = new mongoose.Schema({
   schoolName: String,
@@ -7,10 +7,10 @@ const schoolSchema = new mongoose.Schema({
   state: String,
   votes: {
     "Debate": { type: Number, default: 0 },
-    "Creative Writing": { type: Number, default: 0 },
-    "PoetryCompetition": { type: Number, default: 0 },
-    "SingingComeptition" : { type: Number, default: 0 },
-    "CulturalDance": { type: Number, default: 0 }
+    "Creative writing": { type: Number, default: 0 },
+    "Poetry competition": { type: Number, default: 0 },
+    "Singing competition": { type: Number, default: 0 },
+    "Cultural dance": { type: Number, default: 0 }
   }
 }, { timestamps: true });
 

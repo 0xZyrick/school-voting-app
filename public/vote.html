@@ -207,15 +207,16 @@
       dropdown.className = 'school-dropdown';
       const totalVotes = Object.values(school.votes || {}).reduce((acc, val) => acc + val, 0);
 
-    const activityRows = school.activities.map((activity, index) => `
-      <tr>
-        <td>${activity}</td>
-        <td>
-          <button onclick="voteForActivity('${school._id}', '${activity}')">Vote</button><br>
-          <span id="vote-count-${school._id}-${index}">${activity.votes || 0}</span>
-        </td>
-      </tr>
-    `).join('');
+    const activityRows = Object.keys(school.votes).map(activityName => `
+  <tr>
+    <td>${activityName}</td>
+    <td>
+      <button onclick="voteForActivity('${school._id}', '${activityName}')">Vote</button><br>
+      <span id="vote-count-${school._id}-${activityName}">${school.votes[activityName]}</span>
+    </td>
+  </tr>
+`).join('');
+
 
 dropdown.innerHTML = `
   <div class="school-card">
@@ -263,10 +264,11 @@ async function voteForActivity(schoolId, activity) {
 
       const data = await res.json();
       if (res.ok) {
-        const countElem = document.getElementById(`vote-count-${schoolId}-${activity}`);
+        const countElem = document.getElementById(`vote-count-${schoolId}-${activityName}`);
         if (countElem) {
           countElem.textContent = parseInt(countElem.textContent) + 1;
         }
+
         alert('✅ Vote counted!');
       } else {
         alert('❌ Failed to vote: ' + data.message);
