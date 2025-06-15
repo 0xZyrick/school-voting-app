@@ -220,13 +220,9 @@
 
 dropdown.innerHTML = `
   <div class="school-card">
-    <div class="school-header">
+    <div class="dropdown-toggle" onclick="toggleDropdown('${school._id}')">
       <span class="school-name">${school.schoolName}</span>
       <span class="school-votes">${totalVotes} Votes</span>
-    </div>
-
-    <div class="dropdown-toggle" onclick="toggleDropdown('${school._id}')">
-      ${school.schoolName}
     </div>
 
     <div id="dropdown-${school._id}" class="dropdown-content" style="display: none;">
@@ -241,7 +237,6 @@ dropdown.innerHTML = `
     </div>
   </div>
 `;
-
 
       container.appendChild(dropdown);
     });
