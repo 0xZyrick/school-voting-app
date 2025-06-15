@@ -11,10 +11,31 @@
   width: 100%;
   max-width: 100%;
   margin: 1rem 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
   overflow: hidden;
   background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 1rem 1.5rem;
+}
+.school-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.school-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+.school-votes {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  background-color: #f0f0f0;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
 }
 
     .school-dropdown {
@@ -176,43 +197,50 @@
     const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/schools');
     const schools = await res.json();
 
+    const activities = ['Creative writing', 'Poetry competition', 'Singing comeptition', 'Cultural dance', 'Debate'];
+
     const container = document.getElementById('voteSectionContainer');
     container.innerHTML = '';
 
     schools.forEach(school => {
       const dropdown = document.createElement('div');
       dropdown.className = 'school-dropdown';
+      const totalVotes = Object.values(school.votes || {}).reduce((acc, val) => acc + val, 0);
 
-      const contestants = school.contestants || [];
+    const activityRows = activities.map(activity => `
+      <tr>
+        <td>${activity}</td>
+        <td>
+          <button onclick="voteForActivity('${school._id}', '${activity}')">Vote</button><br>
+          <span id="vote-count-${school._id}-${activity}">${school.votes[activity]}</span>
+        </td>
+      </tr>
+    `).join('');
 
-      const contestantRows = contestants.map((c, index) => `
-        <tr>
-          <td>${c.name || 'N/A'}</td>
-          <td>${c.activity || 'N/A'}</td>
-          <td>
-            <button onclick="voteForSchool('${school._id}', ${index})">Vote</button><br>
-            <span id="vote-count-${school._id}-${index}">${c.votes || 0}</span>
-          </td>
-        </tr>
-      `).join('');
+dropdown.innerHTML = `
+  <div class="school-card">
+    <div class="school-header">
+      <span class="school-name">${school.schoolName}</span>
+      <span class="school-votes">${totalVotes} Votes</span>
+    </div>
 
-      dropdown.innerHTML = `
-        <div class="school-card">
-          <button class="dropdown-toggle" onclick="toggleDropdown('${school._id}')">
-            ${school.schoolName}
-          </button>
-          <div id="dropdown-${school._id}" class="dropdown-content" style="display: none;">
-            <table class="contestant-table">
-              <thead>
-                <tr><th>Contestant Name</th><th>Activity</th><th>Vote</th></tr>
-              </thead>
-              <tbody>
-                ${contestantRows}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      `;
+    <button class="dropdown-toggle" onclick="toggleDropdown('${school._id}')">
+      Show Activities
+    </button>
+
+    <div id="dropdown-${school._id}" class="dropdown-content" style="display: none;">
+      <table class="contestant-table">
+        <thead>
+          <tr><th>Activity</th><th>Vote</th></tr>
+        </thead>
+        <tbody>
+          ${activityRows}
+        </tbody>
+      </table>
+    </div>
+  </div>
+`;
+
 
       container.appendChild(dropdown);
     });
@@ -223,33 +251,32 @@
     dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
   }
 
-  async function voteForSchool(schoolId, contestantIndex) {
-    alert('Redirecting to payment... (simulated)');
-    setTimeout(async () => {
-      try {
-        const res = await fetch(`https://school-voting-backend-5ika.onrender.com/api/vote/${schoolId}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ schoolId, contestantIndex })
-        });
+async function voteForActivity(schoolId, activity) {
+  alert('Redirecting to payment... (simulated)');
+  setTimeout(async () => {
+    try {
+      const res = await fetch(`https://school-voting-backend-5ika.onrender.com/api/vote/${schoolId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ activity })
+      });
 
-        const data = await res.json();
-        if (res.ok) {
-          const countElem = document.getElementById(`vote-count-${schoolId}-${contestantIndex}`);
-          if (countElem) {
-            countElem.textContent = parseInt(countElem.textContent) + 1;
-          }
-          alert('✅ Vote counted!');
-        } else {
-          alert('❌ Failed to vote: ' + data.message);
+      const data = await res.json();
+      if (res.ok) {
+        const countElem = document.getElementById(`vote-count-${schoolId}-${activity}`);
+        if (countElem) {
+          countElem.textContent = parseInt(countElem.textContent) + 1;
         }
-      } catch (err) {
-        alert('❌ Error submitting vote.');
-        console.error(err);
+        alert('✅ Vote counted!');
+      } else {
+        alert('❌ Failed to vote: ' + data.message);
       }
-    }, 1200);
-  }
-
+    } catch (err) {
+      alert('❌ Error submitting vote.');
+      console.error(err);
+    }
+  }, 1200);
+}
   window.onload = loadSchools;
 </script>
 

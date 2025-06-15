@@ -3,21 +3,14 @@ const mongoose = require('mongoose');
 const schoolSchema = new mongoose.Schema({
   schoolName: String,
   email: String,
-  location: String,
-  studentClass: String,
-  contestants: [
-    {
-      name: String,
-      activity: String,
-      votes: {
-        type: Number,
-        default: 0
-      }
-    }
-  ],
+  lga: String,
+  state: String,
   votes: {
-    type: Number,
-    default: 0
+    Debate: { type: Number, default: 0 },
+    CreativeWriting: { type: Number, default: 0 },
+    PoetryCompetition: { type: Number, default: 0 },
+    SingingComeptition : { type: Number, default: 0 },
+    CulturalDance: { type: Number, default: 0 }
   }
 }, { timestamps: true });
 

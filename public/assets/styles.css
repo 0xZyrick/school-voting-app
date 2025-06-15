@@ -25,9 +25,11 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px; 
+    padding: 10px 20px;
+    background: linear-gradient(to right bottom, #001E0D, #008439)
     /* border-bottom: 0.1px  solid   #fad6a3; */
 }
+
 
 .navbar-brand {
     display: flex;
@@ -43,7 +45,7 @@ header {
   .company-name {
     font-size: 1rem;
     font-weight: bold;
-    color: black;
+    color: rgb(253, 252, 252);
   }
 
 .navbarLinks {
@@ -57,7 +59,7 @@ header {
 
 .navbarLinks a {
     text-decoration: none;
-    color: rgb(0, 0, 0);
+    color: rgb(250, 250, 250);
     font-size: 0.8rem;
     transition: color 0.3s ease;
 }
@@ -68,6 +70,7 @@ header {
 
 /* Call-to-Action Button */
 .navCta {
+  display: none;
     background-color: #006029;
     color: #ffffff;
     text-decoration: none;
@@ -90,7 +93,7 @@ header {
 }
 
 .navbar-Hamburger span {
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(250, 250, 250);
     height: 3px;
     width: 25px;
     margin: 4px 0;

@@ -5,21 +5,19 @@ const School = require('../models/School');
 // POST /api/register
 router.post('/', async (req, res) => {
   try {
-    const { schoolName, email, location, studentClass, contestants } = req.body;
+    const { schoolName, email, lga, state, } = req.body;
 
     // ✅ Validate input first
-    if (!schoolName || !email || !location || !studentClass || !contestants || contestants.length !== 3) {
-      return res.status(400).json({ message: 'All fields are required including 3 contestants.' });
+    if (!schoolName || !email || !lga || !state ) {
+      return res.status(400).json({ message: 'All fields are required.' });
     }
 
     // ✅ Create and save
     const newSchool = new School({
       schoolName,
       email,
-      location,
-      studentClass,
-      contestants,
-      votes: 0
+      lga,
+      state,
     });
 
     await newSchool.save();

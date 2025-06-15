@@ -45,46 +45,60 @@ if (searchIcon && searchBar) {
 if (window.location.pathname.includes('/register')) {
   const registrationForm = document.getElementById('registrationForm');
   const responseMessage = document.getElementById('responseMessage');
-  const payButton = document.getElementById('payButton');
-  const submitBtn = document.getElementById('submitBtn');
+  const submitPbtn = document.getElementById('submitPbtn');
+  // const submitBtn = document.getElementById('submitBtn');
   const modal = document.getElementById("confirmationModal");
   const closeModal = document.getElementById("closeModal");
-
-  // ✅ Simulate payment
-  payButton.addEventListener('click', () => {
-    payButton.textContent = "Processing Payment...";
-    payButton.disabled = true;
-
-    setTimeout(() => {
-      payButton.textContent = "Payment Complete ✅";
-      submitBtn.disabled = false;
-    }, 2000);
-  });
+  const cancelBtn = document.querySelector('.cancel-btn');
+  
+// CANCEL BUTTON LOGIC
+cancelBtn.addEventListener('click', () => {
+  registrationForm.reset();
+  submitPbtn.textContent = "Submit";
+  submitPbtn.disabled = false;
+});
 
   // ✅ Submit form after "payment"
   registrationForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const data = {
+  // ✅ Simulate payment
+  // submitPbtn.addEventListener('click', () => {
+    submitPbtn.textContent = "Processing Payment...";
+    submitPbtn.disabled = true;
+
+    setTimeout(() => {
+      submitPbtn.textContent = "Payment Complete ✅";
+      // submitBtn.disabled = false;
+    }, 2000);
+  // });
+
+    // const data = {
+    //   schoolName: document.getElementById('schoolName')?.value,
+    //   email: document.getElementById('schoolEmail')?.value,
+    //   location: document.getElementById('location')?.value,
+    //   studentClass: document.getElementById('studentClass')?.value,
+    //   contestants: [
+    //     {
+    //       name: document.getElementById('contestant1')?.value,
+    //       activity: document.getElementById('activity1')?.value
+    //     },
+    //     {
+    //       name: document.getElementById('contestant2')?.value,
+    //       activity: document.getElementById('activity2')?.value
+    //     },
+    //     {
+    //       name: document.getElementById('contestant3')?.value,
+    //       activity: document.getElementById('activity3')?.value
+    //     }
+    //   ]
+    // }    
+      const data = {
       schoolName: document.getElementById('schoolName')?.value,
       email: document.getElementById('schoolEmail')?.value,
-      location: document.getElementById('location')?.value,
-      studentClass: document.getElementById('studentClass')?.value,
-      contestants: [
-        {
-          name: document.getElementById('contestant1')?.value,
-          activity: document.getElementById('activity1')?.value
-        },
-        {
-          name: document.getElementById('contestant2')?.value,
-          activity: document.getElementById('activity2')?.value
-        },
-        {
-          name: document.getElementById('contestant3')?.value,
-          activity: document.getElementById('activity3')?.value
-        }
-      ]
-    };
+      lga: document.getElementById('lga')?.value,
+      state: document.getElementById('state')?.value,
+    };;
 
     try {
       const res = await fetch(`${BACKEND_URL}/api/register`, {
@@ -113,11 +127,13 @@ if (window.location.pathname.includes('/register')) {
         // ❌ Backend returned an error
         responseMessage.textContent = result.message || 'Registration failed.';
         responseMessage.style.color = "red";
+        submitPbtn.disabled = false;
       }
     } catch (err) {
       responseMessage.textContent = 'Something went wrong. Try again.';
       responseMessage.style.color = "red";
       console.error(err);
+      submitPbtn.disabled = false;
     }
   });
 }
