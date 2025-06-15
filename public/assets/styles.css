@@ -269,7 +269,7 @@ h1 {
     width: 100%;
     padding: 10px;
     font-size: 18px;
-    background-color: #eaebec;
+    /* background-color: #eaebec; */
     color: black;
     border: none;
     text-align: left;
@@ -277,7 +277,7 @@ h1 {
   }
   
   .school-name:hover {
-    background-color: #EB8900;
+    background-color: #d3d3d3;
   }
 
   /* Dropdown menu styles */

@@ -19,7 +19,7 @@
   overflow: hidden;
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  padding: 1rem 1.5rem;
+  padding: 1rem ;
 }
 .school-header {
   display: flex;
@@ -32,13 +32,15 @@
   font-weight: 600;
   color: #333;
 }
+
 .school-votes {
   font-size: 1rem;
-  font-weight: 500;
-  color: #555;
-  background-color: #f0f0f0;
+  font-weight: 600;
+  color: #fbfafa;
+  background-color: #006029;
   padding: 0.4rem 1rem;
   border-radius: 20px;
+  text-align: center;
 }
 
     .school-dropdown {
@@ -51,9 +53,9 @@
   height: 40px;
   font-size: 1rem;
   /* background-color: #f0f0f0; */
-  border: 2px solid #ccc;
+  /* border: 2px solid #ccc; */
   cursor: pointer;
-  padding: 20px;
+  padding: 10px;
 }
 
     .dropdown-content {
@@ -105,6 +107,15 @@
   }
 }
 
+button {
+    background-color: #006029;
+    color: #fff;
+    border: none;
+    padding: 16px;
+    font-size: 1rem;
+    border-radius: 15px;
+    cursor: pointer;
+}
   </style>
 
   <link rel="stylesheet" href="./assets/styles.css">
@@ -262,7 +273,7 @@ async function voteForActivity(schoolId, activity) {
 
       const data = await res.json();
       if (res.ok) {
-        const countElem = document.getElementById(`vote-count-${schoolId}-${activityName}`);
+        const countElem = document.getElementById(`vote-count-${schoolId}-${activity}`);
         if (countElem) {
           countElem.textContent = parseInt(countElem.textContent) + 1;
         }
