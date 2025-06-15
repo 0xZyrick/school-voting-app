@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/public/assets/Assets/logo.jpg" type="image/jpg">
   <title>Voting Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papbHjPsw5huWJfTgS8p+U6ujjMlCWhhpBBo+IYr6EDxV+x9klYk6/f7mUksB+tQg/Nl+lmv96M9pQc8eVH9bQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
   <style>
     
@@ -181,9 +184,9 @@
                 </ul>
             </div>
             <div class="footer-social">
-                <a href="#" class="social-icon"><img src="facebook-icon.png" alt="Facebook"></a>
-                <a href="#" class="social-icon"><img src="twitter-icon.png" alt="Twitter"></a>
-                <a href="#" class="social-icon"><img src="instagram-icon.png" alt="Instagram"></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
         <div class="footer-bottom">
@@ -220,7 +223,7 @@
 
 dropdown.innerHTML = `
   <div class="school-card">
-    <div class="dropdown-toggle" onclick="toggleDropdown('${school._id}')">
+    <div class="dropdown-toggle school-header" onclick="toggleDropdown('${school._id}')">
       <span class="school-name">${school.schoolName}</span>
       <span class="school-votes">${totalVotes} Votes</span>
     </div>
