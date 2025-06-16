@@ -16,7 +16,7 @@ router.post('/verify', async (req, res) => {
     // Verify payment with Paystack
     const paystackResponse = await axios.get(`https://api.paystack.co/transaction/verify/${reference}`, {
       headers: {
-        Authorization: `sk_live_c1b10958927f9b5c8761a310012086d8b94fc621` // Use your Paystack secret key here
+        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}` // Use your Paystack secret key here
       }
     });
 
