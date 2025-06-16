@@ -118,7 +118,7 @@ button {
     cursor: pointer;
 }
 
-.close-btn {
+.closeBtn {
   background: transparent;
   color: black;
   font-size: 1.5rem;
@@ -201,7 +201,7 @@ button {
   <div style="background:hsl(0, 0%, 100%); padding:20px; margin:10% auto; width:90%; max-width:400px; border-radius:10px;">
     <div class="voteHeader" style="display: flex; padding: 10px; justify-content: space-between; align-items: center;">
       <h3>Select the vote amount:</h3>      
-      <button class="close-btn closeVoteModal" onclick="closeVoteModal()">x</button>
+      <button class="closeBtn">x</button>
     </div>
     <div id="voteButtons" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
       <button class="vote-btn" data-count="1">1 vote</button>
@@ -336,6 +336,15 @@ function openVoteModal(schoolId, activityName) {
     }
 }
 
+ // This listens for the click on the "x" button and closes the modal
+  document.addEventListener("DOMContentLoaded", function () {
+    const closeBtn = document.querySelector(".closeBtn");
+    const voteModal = document.getElementById("voteModal");
+
+    closeBtn.addEventListener("click", function () {
+      voteModal.style.display = "none";
+    });
+  });
 
 function proceedToPaystack() {
   if (selectedVotes <= 0) {
@@ -346,8 +355,8 @@ function proceedToPaystack() {
   let amountInKobo = selectedVotes * 10000; // ₦100 per vote × 100 kobo
 
   let handler = PaystackPop.setup({
-    key: 'pk_test_f92eb922d85735e045e90f9f9c02db395360e08b',
-    email: 'voter@example.com', // optional, you can collect real email later
+    key: 'pk_live_615ebb0069ee567a13a7fd38571a79c25e3a0a7e',
+    email: 'braintreearena@gmail.com', // optional, you can collect real email later
     amount: amountInKobo,
     currency: 'NGN',
     callback: function(response) {
