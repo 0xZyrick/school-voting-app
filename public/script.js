@@ -46,60 +46,59 @@ if (window.location.pathname.includes('/register')) {
   const registrationForm = document.getElementById('registrationForm');
   const responseMessage = document.getElementById('responseMessage');
   const submitPbtn = document.getElementById('submitPbtn');
-  // const submitBtn = document.getElementById('submitBtn');
   const modal = document.getElementById("confirmationModal");
   const closeModal = document.getElementById("closeModal");
   const cancelBtn = document.querySelector('.cancel-btn');
-  
-// CANCEL BUTTON LOGIC
-cancelBtn.addEventListener('click', () => {
-  registrationForm.reset();
-  submitPbtn.textContent = "Submit";
-  submitPbtn.disabled = false;
-});
 
-  // ✅ Submit form after "payment"
-  registrationForm.addEventListener('submit', async function (e) {
-    e.preventDefault();
+  // CANCEL BUTTON LOGIC
+  cancelBtn.addEventListener('click', () => {
+    registrationForm.reset();
+    submitPbtn.textContent = "Submit";
+    submitPbtn.disabled = false;
+  });
 
-  // ✅ Simulate payment
-  // submitPbtn.addEventListener('click', () => {
+  // ✅ Remove the previous submit event entirely (we won't use it)
+
+  // ✅ Paystack payment + backend registration flow
+  window.proceedRegistration = function () {
+    const schoolName = document.getElementById('schoolName').value.trim();
+    const email = document.getElementById('schoolEmail').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const lga = document.getElementById('lga').value.trim();
+    const state = document.getElementById('state').value.trim();
+
+    // Validate fields
+    if (!schoolName || !email || !phone || !lga || !state) {
+      alert("Please fill all required fields.");
+      return;
+    }
+
     submitPbtn.textContent = "Processing Payment...";
     submitPbtn.disabled = true;
 
-    setTimeout(() => {
-      submitPbtn.textContent = "Payment Complete ✅";
-      // submitBtn.disabled = false;
-    }, 2000);
-  // });
+    // Start Paystack payment
+    let handler = PaystackPop.setup({
+      key: 'pk_test_xxxxxxxxxxxxxxxxxxx',  // Replace with your public key
+      email: email,
+      amount: 5000000, // ₦50,000 in kobo
+      currency: 'NGN',
+      callback: function (response) {
+        // After payment success, call backend registration
+        registerSchoolOnBackend({
+          schoolName, email, phone, lga, state, paymentReference: response.reference
+        });
+      },
+      onClose: function () {
+        submitPbtn.textContent = "Submit";
+        submitPbtn.disabled = false;
+        alert('Payment cancelled.');
+      }
+    });
 
-    // const data = {
-    //   schoolName: document.getElementById('schoolName')?.value,
-    //   email: document.getElementById('schoolEmail')?.value,
-    //   location: document.getElementById('location')?.value,
-    //   studentClass: document.getElementById('studentClass')?.value,
-    //   contestants: [
-    //     {
-    //       name: document.getElementById('contestant1')?.value,
-    //       activity: document.getElementById('activity1')?.value
-    //     },
-    //     {
-    //       name: document.getElementById('contestant2')?.value,
-    //       activity: document.getElementById('activity2')?.value
-    //     },
-    //     {
-    //       name: document.getElementById('contestant3')?.value,
-    //       activity: document.getElementById('activity3')?.value
-    //     }
-    //   ]
-    // }    
-      const data = {
-      schoolName: document.getElementById('schoolName')?.value,
-      email: document.getElementById('schoolEmail')?.value,
-      lga: document.getElementById('lga')?.value,
-      state: document.getElementById('state')?.value,
-    };;
+    handler.openIframe();
+  }
 
+  async function registerSchoolOnBackend(data) {
     try {
       const res = await fetch(`${BACKEND_URL}/api/register`, {
         method: 'POST',
@@ -108,8 +107,8 @@ cancelBtn.addEventListener('click', () => {
       });
 
       const result = await res.json();
+
       if (res.ok) {
-        // ✅ Show success modal
         responseMessage.textContent = '';
         modal.style.display = "flex";
 
@@ -118,22 +117,22 @@ cancelBtn.addEventListener('click', () => {
           if (e.target == modal) modal.style.display = "none";
         };
 
-        // ✅ Auto-redirect
         setTimeout(() => {
           modal.style.display = "none";
           window.location.href = "./vote.html";
         }, 3000);
       } else {
-        // ❌ Backend returned an error
         responseMessage.textContent = result.message || 'Registration failed.';
         responseMessage.style.color = "red";
         submitPbtn.disabled = false;
+        submitPbtn.textContent = "Submit";
       }
     } catch (err) {
       responseMessage.textContent = 'Something went wrong. Try again.';
       responseMessage.style.color = "red";
-      console.error(err);
       submitPbtn.disabled = false;
+      submitPbtn.textContent = "Submit";
+      console.error(err);
     }
-  });
+  }
 }

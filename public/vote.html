@@ -201,7 +201,7 @@ button {
   <div style="background:hsl(0, 0%, 100%); padding:20px; margin:10% auto; width:90%; max-width:400px; border-radius:10px;">
     <div class="voteHeader" style="display: flex; padding: 10px; justify-content: space-between; align-items: center;">
       <h3>Select the vote amount:</h3>      
-      <button class="close-btn" onclick="closeVoteModal()">x</button>
+      <button class="close-btn closeVoteModal" onclick="closeVoteModal()">x</button>
     </div>
     <div id="voteButtons" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
       <button class="vote-btn" data-count="1">1 vote</button>
@@ -334,7 +334,6 @@ function openVoteModal(schoolId, activityName) {
     function closeVoteModal() {
       document.getElementById("voteModal").style.display = "none";
     }
-
 }
 
 

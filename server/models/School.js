@@ -1,10 +1,11 @@
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
 
 const schoolSchema = new mongoose.Schema({
-  schoolName: String,
-  email: String,
-  lga: String,
-  state: String,
+  schoolName: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: String, required: true },   // ✅ NEW FIELD
+  lga: { type: String, required: true },
+  state: { type: String, required: true },
   votes: {
     "Debate": { type: Number, default: 0 },
     "Creative writing": { type: Number, default: 0 },

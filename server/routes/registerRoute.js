@@ -5,24 +5,23 @@ const School = require('../models/School');
 // POST /api/register
 router.post('/', async (req, res) => {
   try {
-    const { schoolName, email, lga, state, } = req.body;
+    const { schoolName, email, phone, lga, state, paymentReference } = req.body;
 
     // ✅ Validate input first
-    if (!schoolName || !email || !lga || !state ) {
+    if (!schoolName || !email || !phone || !lga || !state ) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    // ✅ Create and save
     const newSchool = new School({
       schoolName,
       email,
+      phone,  // ✅ Store phone too
       lga,
-      state,
+      state
     });
 
     await newSchool.save();
 
-    // ✅ Send success response
     res.status(201).json({ message: 'School registered successfully!' });
   } catch (err) {
     console.error("❌ Error saving school:", err.message);
