@@ -6,10 +6,11 @@
   <link rel="icon" href="./assets/Assets/logo.jpg" type="image/jpg">
   <title>Voting Page</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papbHjPsw5huWJfTgS8p+U6ujjMlCWhhpBBo+IYr6EDxV+x9klYk6/f7mUksB+tQg/Nl+lmv96M9pQc8eVH9bQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://js.paystack.co/v1/inline.js"></script>
 
 
   <style>
-    
+
   .school-card {
   width: 100%;
   max-width: 100%;
@@ -173,16 +174,33 @@ button {
     <div class="voteschoolContainer">
       <h3>Registered Schools</h3>
       <div class="votesearchContainer">
-        <form class="search-form" action="search" id="form">
+        <form class="search-form" onsubmit="return false;">
           <input type="search" id="query" name="q" placeholder="Search...">
         </form>
         <button class="search-icon">
           <img src="search-icon.png" alt="Search">
+        </button>
       </div>
     </div>
 
     <div id="voteSectionContainer"></div>
 
+    <div id="voteModal" class="modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.5); z-index: 9999;">
+  <div style="background:#fff; padding:20px; margin:10% auto; width:300px; border-radius:10px;">
+    <h3>Select Vote Quantity</h3>
+    <div id="voteButtons">
+      <button onclick="selectVoteAmount(1)">1</button>
+      <button onclick="selectVoteAmount(5)">5</button>
+      <button onclick="selectVoteAmount(10)">10</button>
+      <button onclick="selectVoteAmount(50)">50</button>
+      <button onclick="selectVoteAmount(100)">100</button>
+      <button onclick="selectVoteAmount(1000)">1000</button>
+    </div>
+    <p>Selected: <span id="selectedVoteCount">0</span> votes</p>
+    <button onclick="proceedToPaystack()">Proceed to Pay</button>
+    <button onclick="closeVoteModal()">Cancel</button>
+  </div>
+</div>
   </main>
   
 <footer class="footer">
@@ -229,7 +247,7 @@ button {
   <tr>
     <td>${activityName}</td>
     <td>
-      <button onclick="voteForActivity('${school._id}', '${activityName}')">Vote</button><br>
+      <button onclick="openVoteModal('${school._id}', '${activityName}')">Vote</button><br>
       <span id="vote-count-${school._id}-${activityName}">${school.votes[activityName]}</span>
     </td>
   </tr>
@@ -264,6 +282,80 @@ dropdown.innerHTML = `
     const dropdown = document.getElementById(`dropdown-${id}`);
     dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
   }
+
+    let currentSchoolId = null;
+    let currentActivityName = null;
+    let selectedVotes = 0;
+
+function openVoteModal(schoolId, activityName) {
+  currentSchoolId = schoolId;
+  currentActivityName = activityName;
+  selectedVotes = 0;
+  document.getElementById("selectedVoteCount").innerText = selectedVotes;
+  document.getElementById("voteModal").style.display = "block";
+}
+
+function selectVoteAmount(amount) {
+  selectedVotes = amount;
+  document.getElementById("selectedVoteCount").innerText = selectedVotes;
+}
+
+function closeVoteModal() {
+  document.getElementById("voteModal").style.display = "none";
+}
+
+function proceedToPaystack() {
+  if (selectedVotes <= 0) {
+    alert("Please select vote amount");
+    return;
+  }
+
+  let amountInKobo = selectedVotes * 10000; // ₦100 per vote × 100 kobo
+
+  let handler = PaystackPop.setup({
+    key: 'pk_test_f92eb922d85735e045e90f9f9c02db395360e08b',
+    email: 'voter@example.com', // optional, you can collect real email later
+    amount: amountInKobo,
+    currency: 'NGN',
+    callback: function(response) {
+      // After payment success, send to backend for processing
+      verifyPaymentOnBackend(response.reference);
+    },
+    onClose: function() {
+      alert('Transaction cancelled.');
+    }
+  });
+
+  handler.openIframe();
+}
+
+async function verifyPaymentOnBackend(reference) {
+  try {
+    const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/verify-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        reference: reference,
+        schoolId: currentSchoolId,
+        activity: currentActivityName,
+        votes: selectedVotes
+      })
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      closeVoteModal();
+      alert("✅ Vote successful!");
+      loadSchools(); // refresh vote count
+    } else {
+      alert("❌ Failed: " + data.message);
+    }
+  } catch (err) {
+    alert("❌ Error verifying payment.");
+    console.error(err);
+  }
+}
+
 
 async function voteForActivity(schoolId, activity) {
   alert('Redirecting to payment... (simulated)');

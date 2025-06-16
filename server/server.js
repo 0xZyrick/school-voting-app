@@ -10,6 +10,9 @@ const voteRoute = require('./routes/voteRoute');
 const schoolRoutes = require('./routes/schools');
 
 const app = express();
+const paymentRoute = require('./routes/payment');
+const verifyPaymentRoutes = require('./routes/verify-payment');
+
 
 
 // ====== Middlewares ======
@@ -20,6 +23,10 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+app.use('/api/payment', paymentRoute);
+
+app.use('/api/verify-payment', verifyPaymentRoutes);
 
 // ====== Static Files ======
 // Serve frontend static files (e.g., vote.html, css, js)
