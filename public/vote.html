@@ -117,6 +117,18 @@ button {
     border-radius: 15px;
     cursor: pointer;
 }
+
+.close-btn {
+  background: transparent;
+  color: black;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+
   </style>
 
   <link rel="stylesheet" href="./assets/styles.css">
@@ -185,20 +197,30 @@ button {
 
     <div id="voteSectionContainer"></div>
 
-    <div id="voteModal" class="modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.5); z-index: 9999;">
-  <div style="background:#fff; padding:20px; margin:10% auto; width:300px; border-radius:10px;">
-    <h3>Select Vote Quantity</h3>
-    <div id="voteButtons">
-      <button onclick="selectVoteAmount(1)">1</button>
-      <button onclick="selectVoteAmount(5)">5</button>
-      <button onclick="selectVoteAmount(10)">10</button>
-      <button onclick="selectVoteAmount(50)">50</button>
-      <button onclick="selectVoteAmount(100)">100</button>
-      <button onclick="selectVoteAmount(1000)">1000</button>
+<div id="voteModal" class="modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.5); z-index: 9999;">
+  <div style="background:hsl(0, 0%, 100%); padding:20px; margin:10% auto; width:90%; max-width:400px; border-radius:10px;">
+    <div class="voteHeader" style="display: flex; padding: 10px; justify-content: space-between; align-items: center;">
+      <h3>Select the vote amount:</h3>      
+      <button class="close-btn" onclick="closeVoteModal()">x</button>
     </div>
-    <p>Selected: <span id="selectedVoteCount">0</span> votes</p>
-    <button onclick="proceedToPaystack()">Proceed to Pay</button>
-    <button onclick="closeVoteModal()">Cancel</button>
+    <div id="voteButtons" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+      <button class="vote-btn" data-count="1">1 vote</button>
+      <button class="vote-btn" data-count="5">5 votes</button>
+      <button class="vote-btn" data-count="20">20 votes</button>
+      <button class="vote-btn" data-count="50">50 votes</button>
+      <button class="vote-btn" data-count="100">100 votes</button>
+      <button class="vote-btn" data-count="1000">1000 votes</button>
+      <button id="clearSelection" style="grid-column: span 3; border: 1px solid green; background: white; color: green;">Clear</button>
+
+    </div>
+
+    
+    
+    <div style="margin-top: 20px;">
+      <input id="amountDisplay" type="text" disabled placeholder="Amount" style="width: 100%; padding: 10px; font-size: 1.2rem; text-align: center; border-radius: 8px; border: 1px solid #ccc;">
+    </div>
+
+    <button onclick="proceedToPaystack()" style="margin-top: 20px; width: 100%; padding: 15px; background-color: green; color: white; font-size: 1.2rem; border-radius: 8px;">Proceed</button>
   </div>
 </div>
   </main>
@@ -288,21 +310,33 @@ dropdown.innerHTML = `
     let selectedVotes = 0;
 
 function openVoteModal(schoolId, activityName) {
-  currentSchoolId = schoolId;
-  currentActivityName = activityName;
-  selectedVotes = 0;
-  document.getElementById("selectedVoteCount").innerText = selectedVotes;
-  document.getElementById("voteModal").style.display = "block";
+      currentSchoolId = schoolId;
+      currentActivityName = activityName;
+      selectedVotes = 0;
+      document.getElementById("selectedVoteCount").innerText = selectedVotes;
+      document.getElementById("voteModal").style.display = "block";
+
+      document.querySelectorAll('.vote-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.vote-btn').forEach(b => b.style.border = 'none');
+        selectedVotes = parseInt(this.dataset.count);
+        this.style.border = '3px solid orange';
+        document.getElementById('amountDisplay').value = `₦ ${selectedVotes * 100}`;
+      });
+    });
+
+    document.getElementById('clearSelection').addEventListener('click', () => {
+      selectedVotes = 0;
+      document.querySelectorAll('.vote-btn').forEach(b => b.style.border = 'none');
+      document.getElementById('amountDisplay').value = '';
+    });
+
+    function closeVoteModal() {
+      document.getElementById("voteModal").style.display = "none";
+    }
+
 }
 
-function selectVoteAmount(amount) {
-  selectedVotes = amount;
-  document.getElementById("selectedVoteCount").innerText = selectedVotes;
-}
-
-function closeVoteModal() {
-  document.getElementById("voteModal").style.display = "none";
-}
 
 function proceedToPaystack() {
   if (selectedVotes <= 0) {

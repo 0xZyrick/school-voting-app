@@ -11,7 +11,7 @@ const schoolRoutes = require('./routes/schools');
 
 const app = express();
 const paymentRoute = require('./routes/payment');
-// const verifyPaymentRoutes = require('./routes/verify-payment');
+const verifyPaymentRoutes = require('./routes/verify-payment');
 
 
 
@@ -26,7 +26,7 @@ app.use(express.json());
 
 app.use('/api/payment', paymentRoute);
 
-// app.use('/api/verify-payment', verifyPaymentRoutes);
+app.use('/api/verify-payment', verifyPaymentRoutes);
 
 // ====== Static Files ======
 // Serve frontend static files (e.g., vote.html, css, js)
