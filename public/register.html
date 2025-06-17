@@ -207,6 +207,8 @@
       flex: 1;
       cursor: pointer;
     }
+    
+
   </style>
 
   <link rel="stylesheet" href="./assets/styles.css">
@@ -214,6 +216,10 @@
 </head>
 
 <body>
+      <div class="screen-warning-banner">
+        For better viewing experience, Switch to a bigger screen or desktop view.
+      </div>
+      
   <header>
     <nav class="main-navbar">
       <div class="navbar-brand">
@@ -241,9 +247,7 @@
     </div>
   </header>
 
-  <div class="screen-warning-banner">
-  For better viewing experience, Switch to a bigger screen or desktop view.
-</div>
+
 
 
   <main>
@@ -264,7 +268,8 @@
             <input type="email" id="schoolEmail" placeholder="Email Address" required />
           </div>
 
-          <div class="form-group">
+          <div class="form-group phone-input">
+            <!-- <span class="country-code">+256</span> -->
             <input type="tel" id="phone" placeholder="Phone Number" required />
           </div>
 
