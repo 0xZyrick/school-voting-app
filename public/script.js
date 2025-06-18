@@ -29,14 +29,22 @@ function toggleMenu() {
 
 // ✅ Search bar toggle
 const searchIcon = document.querySelector('.search-icon');
-const searchBar = document.querySelector('#form');
+const searchBar = document.querySelector('.search-form');
 
-if (searchIcon && searchBar) {
-  searchIcon.addEventListener('click', function () {
-    if (searchBar.style.display === 'block' || searchBar.style.display === '') {
-      searchBar.style.display = 'none';
+document.querySelector('.search-icon').addEventListener('click', () => {
+  const query = document.querySelector('#query').value.toLowerCase();
+  filterSchools(query);
+});
+
+function filterSchools(query) {
+  const schoolCards = document.querySelectorAll('.school-card');
+
+  schoolCards.forEach(card => {
+    const schoolName = card.querySelector('.school-name').textContent.toLowerCase();
+    if (schoolName.includes(query)) {
+      card.parentElement.style.display = 'block';
     } else {
-      searchBar.style.display = 'block';
+      card.parentElement.style.display = 'none';
     }
   });
 }

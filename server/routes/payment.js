@@ -8,7 +8,7 @@ router.post('/verify', async (req, res) => {
   const { reference, schoolId, activity, voteCount } = req.body;
 
   // Validate inputs
-  if (!reference || !schoolId || !activity || !voteCount) {
+  if (!reference || !schoolId || !activity || !votes) {
     return res.status(400).json({ message: 'Incomplete request.' });
   }
 
@@ -33,7 +33,7 @@ router.post('/verify', async (req, res) => {
       }
 
       // Increment votes by voteCount
-      school.votes[activity] += parseInt(voteCount);
+      school.votes[activity] += parseInt(votes);
       await school.save();
 
       res.status(200).json({ message: 'Payment verified and votes updated successfully.' });
