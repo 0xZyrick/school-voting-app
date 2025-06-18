@@ -31,23 +31,17 @@ function toggleMenu() {
 const searchIcon = document.querySelector('.search-icon');
 const searchBar = document.querySelector('.search-form');
 
-document.querySelector('.search-icon').addEventListener('click', () => {
-  const query = document.querySelector('#query').value.toLowerCase();
-  filterSchools(query);
-});
+  document.querySelector('.search-icon').addEventListener('click', () => {
+    const query = document.querySelector('#query').value.toLowerCase();
+    console.log('Searching for:', query); // ✅ Debug: check if event triggers
 
-function filterSchools(query) {
-  const schoolCards = document.querySelectorAll('.school-card');
+    const schoolCards = document.querySelectorAll('.school-card');
 
-  schoolCards.forEach(card => {
-    const schoolName = card.querySelector('.school-name').textContent.toLowerCase();
-    if (schoolName.includes(query)) {
-      card.parentElement.style.display = 'block';
-    } else {
-      card.parentElement.style.display = 'none';
-    }
+    schoolCards.forEach(card => {
+      const name = card.querySelector('.school-name').textContent.toLowerCase();
+      card.parentElement.style.display = name.includes(query) ? 'block' : 'none';
+    });
   });
-}
 
 // ✅ Only run this on register.html
 if (window.location.pathname.includes('/register')) {
