@@ -5,7 +5,7 @@ const School = require('../models/School');
 
 // POST /api/payment/verify
 router.post('/verify', async (req, res) => {
-  const { reference, schoolId, activity, voteCount } = req.body;
+  const { reference, schoolId, activity, votes } = req.body;
 
   // Validate inputs
   if (!reference || !schoolId || !activity || !votes) {
