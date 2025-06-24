@@ -7,6 +7,13 @@ const School = require('../models/School');
 router.post('/verify', async (req, res) => {
   const { reference, schoolId, activity, votes } = req.body;
 
+    console.log('⚡ VERIFY ENDPOINT INPUTS:', {
+    reference,
+    schoolId,
+    activity,
+    votes
+  });
+
   // Validate inputs
   if (!reference || !schoolId || !activity || !votes) {
     return res.status(400).json({ message: 'Incomplete request.' });
