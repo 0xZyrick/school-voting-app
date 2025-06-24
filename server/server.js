@@ -8,12 +8,9 @@ const path = require('path');
 const registerRoute = require('./routes/registerRoute');
 const voteRoute = require('./routes/voteRoute');
 const schoolRoutes = require('./routes/schools');
+const paymentRoute = require('./routes/payment');
 
 const app = express();
-const paymentRoute = require('./routes/payment');
-const verifyPaymentRoutes = require('./routes/verify-payment');
-
-
 
 // ====== Middlewares ======
 app.use(cors({
@@ -24,21 +21,15 @@ app.use(cors({
 
 app.use(express.json());
 
+// ====== Route Registration ======
 app.use('/api/payment', paymentRoute);
-
-app.use('/api/verify-payment', verifyPaymentRoutes);
-
-// ====== Static Files ======
-// Serve frontend static files (e.g., vote.html, css, js)
-app.use(express.static(path.join(__dirname, '../public')));
-
-// Serve Assets folder (images like logo, icons, etc.)
-app.use('/Assets', express.static(path.join(__dirname, '../public/assets/Assets')));
-
-// ====== API Routes ======
 app.use('/api/register', registerRoute);
 app.use('/api/vote', voteRoute);
 app.use('/api/schools', schoolRoutes);
+
+// ====== Static Files ======
+app.use(express.static(path.join(__dirname, '../public')));
+app.use('/Assets', express.static(path.join(__dirname, '../public/assets/Assets')));
 
 // ====== MongoDB Connection & Server Start ======
 const PORT = process.env.PORT || 5000;
