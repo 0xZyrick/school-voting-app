@@ -386,7 +386,7 @@ async function verifyPaymentOnBackend(reference) {
 
     const data = await res.json();
     if (res.ok) {
-      closeVoteModal();
+      // closeVoteModal();
       alert("✅ Vote successful!");
       loadSchools(); // refresh vote count
     } else {
