@@ -373,7 +373,7 @@ function proceedToPaystack() {
 
 async function verifyPaymentOnBackend(reference) {
   try {
-    const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/verify-payment', {
+    const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/payment/verify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
