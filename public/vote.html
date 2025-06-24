@@ -251,54 +251,51 @@ button {
 
   <!-- ================= SCRIPT ================= -->
 <script>
-  async function loadSchools() {
-    const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/schools');
-    const schools = await res.json();
+async function loadSchools() {
+  const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/schools');
+  const schools = await res.json();
 
-    const activities = ['Creative writing', 'Poetry competition', 'Singing comeptition', 'Cultural dance', 'Debate'];
+  // 🔥 sort schools alphabetically by their name
+  schools.sort((a, b) => a.schoolName.localeCompare(b.schoolName));
 
-    const container = document.getElementById('voteSectionContainer');
-    container.innerHTML = '';
+  const container = document.getElementById('voteSectionContainer');
+  container.innerHTML = '';
 
-    schools.forEach(school => {
-      const dropdown = document.createElement('div');
-      dropdown.className = 'school-dropdown';
-      const totalVotes = Object.values(school.votes || {}).reduce((acc, val) => acc + val, 0);
+  schools.forEach(school => {
+    const dropdown = document.createElement('div');
+    dropdown.className = 'school-dropdown';
+    const totalVotes = Object.values(school.votes || {}).reduce((acc, val) => acc + val, 0);
 
     const activityRows = Object.keys(school.votes).map(activityName => `
-  <tr>
-    <td>${activityName}</td>
-    <td>
-      <button onclick="openVoteModal('${school._id}', '${activityName}')">Vote</button><br>
-      <span id="vote-count-${school._id}-${activityName}">${school.votes[activityName]}</span>
-    </td>
-  </tr>
-`).join('');
+      <tr>
+        <td>${activityName}</td>
+        <td>
+          <button onclick="openVoteModal('${school._id}', '${activityName}')">Vote</button><br>
+          <span id="vote-count-${school._id}-${activityName}">${school.votes[activityName]}</span>
+        </td>
+      </tr>
+    `).join('');
 
+    dropdown.innerHTML = `
+      <div class="school-card">
+        <div class="dropdown-toggle school-header" onclick="toggleDropdown('${school._id}')">
+          <span class="school-name">${school.schoolName}</span>
+          <span class="school-votes">${totalVotes} Votes</span>
+        </div>
+        <div id="dropdown-${school._id}" class="dropdown-content" style="display: none;">
+          <table class="contestant-table">
+            <thead>
+              <tr><th>Activity</th><th>Vote</th></tr>
+            </thead>
+            <tbody>${activityRows}</tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    container.appendChild(dropdown);
+  });
+}
 
-dropdown.innerHTML = `
-  <div class="school-card">
-    <div class="dropdown-toggle school-header" onclick="toggleDropdown('${school._id}')">
-      <span class="school-name">${school.schoolName}</span>
-      <span class="school-votes">${totalVotes} Votes</span>
-    </div>
-
-    <div id="dropdown-${school._id}" class="dropdown-content" style="display: none;">
-      <table class="contestant-table">
-        <thead>
-          <tr><th>Activity</th><th>Vote</th></tr>
-        </thead>
-        <tbody>
-          ${activityRows}
-        </tbody>
-      </table>
-    </div>
-  </div>
-`;
-
-      container.appendChild(dropdown);
-    });
-  }
 
   function toggleDropdown(id) {
     const dropdown = document.getElementById(`dropdown-${id}`);
@@ -355,7 +352,7 @@ function proceedToPaystack() {
   let amountInKobo = selectedVotes * 10000; // ₦100 per vote × 100 kobo
 
   let handler = PaystackPop.setup({
-    key: 'pk_test_f92eb922d85735e045e90f9f9c02db395360e08b',
+    key: 'pk_live_615ebb0069ee567a13a7fd38571a79c25e3a0a7e',
     email: 'braintreearena@gmail.com', // optional, you can collect real email later
     amount: amountInKobo,
     currency: 'NGN',

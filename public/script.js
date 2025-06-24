@@ -80,7 +80,7 @@ if (window.location.pathname.includes('/register')) {
 
     // Start Paystack payment
     let handler = PaystackPop.setup({
-      key: 'pk_test_f92eb922d85735e045e90f9f9c02db395360e08b',  // Replace with your public key
+      key: 'pk_live_615ebb0069ee567a13a7fd38571a79c25e3a0a7e',  // Replace with your public key
       email: email,
       amount: 5000000, // ₦50,000 in kobo
       currency: 'NGN',
