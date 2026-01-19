@@ -1,434 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vote for Your School - Braintree Arena</title>
   <link rel="icon" href="./assets/Assets/logo.jpg" type="image/jpg">
-  <title>Voting Page</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papbHjPsw5huWJfTgS8p+U6ujjMlCWhhpBBo+IYr6EDxV+x9klYk6/f7mUksB+tQg/Nl+lmv96M9pQc8eVH9bQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://js.paystack.co/v1/inline.js"></script>
-
-
-  <style>
-
-  .school-card {
-  width: 100%;
-  max-width: 100%;
-  margin: 1rem 0;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  overflow: hidden;
-  background-color: #fff;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  padding: 1rem ;
-}
-.school-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.school-name {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
-}
-
-.school-votes {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #006029;
-  /* background-color: #006029; */
-  padding: 0.4rem;
-  border-radius: 20px;
-  text-align: center;
-}
-
-    .school-dropdown {
-  width: 100%;
-  margin: 10px 0;
-}
-
-    .dropdown-toggle {
-  width: 100%;
-  height: 40px;
-  font-size: 1rem;
-  /* background-color: #f0f0f0; */
-  /* border: 2px solid #ccc; */
-  cursor: pointer;
-  padding: 10px;
-}
-
-    .dropdown-content {
-  display: none;
-  width: 100%;
-  max-width: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-    .dropdown-content.show {
-  display: block;
-}
-
-.contestant-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed; /* Forces even column width */
-}
-
-.contestant-table th,
-.contestant-table td {
-  text-align: center;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  word-wrap: break-word;
-}
-
-.contestant-table th {
-  background-color: #f9f9f9;
-  font-weight: bold;
-}
-
-#voteSectionContainer {
-  width: 100%;
-  padding: 0;
-  margin: 0 auto;
-}
-
-@media (max-width: 768px) {
-  .contestant-table th,
-  .contestant-table td {
-    font-size: 14px;
-    padding: 0.5rem;
-  }
-
-  .dropdown-content {
-    padding: 0.5rem;
-  }
-}
-
-button {
-    background-color: #006029;
-    color: #fff;
-    border: none;
-    padding: 16px;
-    font-size: 1rem;
-    border-radius: 15px;
-    cursor: pointer;
-}
-
-.closeBtn {
-  background: transparent;
-  color: black;
-  font-size: 1.5rem;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  line-height: 1;
-}
-
-  </style>
-
-  <link rel="stylesheet" href="./assets/styles.css">
-  
 </head>
-
 <body>
-  <!-- Hero Section -->
-  <header>
-    <nav class="main-navbar">
-        <!-- Logo -->
-        <div class="navbar-brand">
-          <img src="./assets/Assets/logo.jpg" alt="Company Logo" class="logo">
-          <span class="company-name">Braintree Company</span>
-        </div>
-        <!-- Navigation Links -->
-        <ul class="navbarLinks">
-          <li><a href="./index.html">HOME</a></li>
-          <li><a href="./register.html">REGISTER</a></li>
-          <li><a href="./vote.html">VOTE</a></li>
-      </ul>
+  <div id="root"></div>
 
-        <!-- Call-to-Action Button -->
-        <a href="./register.html" class="navCta">Register Now</a>
+  <script type="module">
+    import React, { useState, useEffect, useRef } from 'https://esm.sh/react@18.2.0';
+    import { createRoot } from 'https://esm.sh/react-dom@18.2.0/client';
 
-        <!-- Hamburger Menu -->
-        <div class="navbar-Hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
+    const BACKEND_URL = "https://school-voting-backend-5ika.onrender.com";
 
-    <!-- Dropdown Menu for Mobile -->
-    <div class="nav-dropdown">
-        <ul>
-            <li><a href="./index.html">HOME</a></li>
-            <li><a href="./register.html">REGISTER</a></li>
-            <li><a href="./vote.html">VOTE</a></li>
-            <li><a href="./register.html" class="cta-btn">Register Now</a></li>
-        </ul>
-    </div>
-</header>
+    function VotingPage() {
+      const [schools, setSchools] = useState([]);
+      const [searchTerm, setSearchTerm] = useState('');
+      const [expandedSchool, setExpandedSchool] = useState(null);
+      const [showVoteModal, setShowVoteModal] = useState(false);
+      const [selectedVote, setSelectedVote] = useState(null);
+      const [voteCount, setVoteCount] = useState(0);
+      const [isLoading, setIsLoading] = useState(true);
 
-  <div class="screen-warning-banner">
-  For better viewing experience, Switch to a bigger screen or desktop view.
-</div>
+      useEffect(() => {
+        fetchSchools();
+      }, []);
 
-  <main>
-    <div class="voteHero">
-      <h1>Vote for Your Favorite Contestants</h1>
-      <p class="note">Note: Each vote costs N100</p>
-    </div>
+      const fetchSchools = async () => {
+        try {
+          const response = await fetch(`${BACKEND_URL}/api/schools`);
+          const data = await response.json();
+          
+          // Sort alphabetically by school name
+          const sorted = data.sort((a, b) => a.schoolName.localeCompare(b.schoolName));
+          setSchools(sorted);
+          setIsLoading(false);
+        } catch (error) {
+          console.error('Error fetching schools:', error);
+          setIsLoading(false);
+        }
+      };
 
-    <div class="voteschoolContainer">
-      <h3>Registered Schools</h3>
-      <div class="votesearchContainer">
-        <form class="search-form" onsubmit="return false;">
-          <input type="search" id="query" name="q" placeholder="Search...">
-        </form>
-        <button type="button" class="search-icon">
-          <img src="search-icon.png" alt="Search">
-        </button>
-      </div>
-    </div>
+      const filteredSchools = schools.filter(school =>
+        school.schoolName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        school.lga.toLowerCase().includes(searchTerm.toLowerCase())
+      );
 
-    <div id="voteSectionContainer"></div>
+      // Vote options: 1, 5, 20, 50, 100, 1000 votes (from your original code)
+      const voteOptions = [1, 5, 20, 50, 100, 1000];
 
-<div id="voteModal" class="modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.5); z-index: 9999;">
-  <div style="background:hsl(0, 0%, 100%); padding:20px; margin:10% auto; width:90%; max-width:400px; border-radius:10px;">
-    <div class="voteHeader" style="display: flex; padding: 10px; justify-content: space-between; align-items: center;">
-      <h3>Select the vote amount:</h3>      
-      <button class="closeBtn">x</button>
-    </div>
-    <div id="voteButtons" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-      <button class="vote-btn" data-count="1">1 vote</button>
-      <button class="vote-btn" data-count="5">5 votes</button>
-      <button class="vote-btn" data-count="20">20 votes</button>
-      <button class="vote-btn" data-count="50">50 votes</button>
-      <button class="vote-btn" data-count="100">100 votes</button>
-      <button class="vote-btn" data-count="1000">1000 votes</button>
-      <button id="clearSelection" style="grid-column: span 3; border: 1px solid green; background: white; color: green;">Clear</button>
+      const openVoteModal = (schoolId, activity) => {
+        setSelectedVote({ schoolId, activity });
+        setVoteCount(0);
+        setShowVoteModal(true);
+      };
 
-    </div>
+      const closeVoteModal = () => {
+        setShowVoteModal(false);
+        setSelectedVote(null);
+        setVoteCount(0);
+      };
 
-    
-    
-    <div style="margin-top: 20px;">
-      <input id="amountDisplay" type="text" disabled placeholder="Amount" style="width: 100%; padding: 10px; font-size: 1.2rem; text-align: center; border-radius: 8px; border: 1px solid #ccc;">
-    </div>
-
-    <button onclick="proceedToPaystack()" style="margin-top: 20px; width: 100%; padding: 15px; background-color: green; color: white; font-size: 1.2rem; border-radius: 8px;">Proceed</button>
-  </div>
-</div>
-  </main>
-  
-<footer class="footer">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <img src="./assets/Assets/logo.jpg" alt="Company Logo" class="logo">
-                <span>Braintree Company</span>
-            </div>
-            <div class="footer-links">
-                <ul>
-                    <li><a href="./register.html">HOME</a></li>
-                    <li><a href="./register.html">REGISTER</a></li>
-                    <li><a href="./vote.html">VOTE</a></li>
-                </ul>
-            </div>
-            <div class="footer-social">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 My Website. All rights reserved.</p>
-        </div>
-</footer>
-
-  <!-- ================= SCRIPT ================= -->
-<script>
-async function loadSchools() {
-  const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/schools');
-  const schools = await res.json();
-
-  // 🔥 sort schools alphabetically by their name
-  schools.sort((a, b) => a.schoolName.localeCompare(b.schoolName));
-
-  const container = document.getElementById('voteSectionContainer');
-  container.innerHTML = '';
-
-  schools.forEach(school => {
-    const dropdown = document.createElement('div');
-    dropdown.className = 'school-dropdown';
-    const totalVotes = Object.values(school.votes || {}).reduce((acc, val) => acc + val, 0);
-
-    const activityRows = Object.keys(school.votes).map(activityName => `
-      <tr>
-        <td>${activityName}</td>
-        <td>
-          <button onclick="openVoteModal('${school._id}', '${activityName}')">Vote</button><br>
-          <span id="vote-count-${school._id}-${activityName}">${school.votes[activityName]}</span>
-        </td>
-      </tr>
-    `).join('');
-
-    dropdown.innerHTML = `
-      <div class="school-card">
-        <div class="dropdown-toggle school-header" onclick="toggleDropdown('${school._id}')">
-          <span class="school-name">${school.schoolName}</span>
-          <span class="school-votes">${totalVotes} Votes</span>
-        </div>
-        <div id="dropdown-${school._id}" class="dropdown-content" style="display: none;">
-          <table class="contestant-table">
-            <thead>
-              <tr><th>Activity</th><th>Vote</th></tr>
-            </thead>
-            <tbody>${activityRows}</tbody>
-          </table>
-        </div>
-      </div>
-    `;
-    container.appendChild(dropdown);
-  });
-}
-
-
-  function toggleDropdown(id) {
-    const dropdown = document.getElementById(`dropdown-${id}`);
-    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-  }
-
-    let currentSchoolId = null;
-    let currentActivityName = null;
-    let selectedVotes = 0;
-
-function openVoteModal(schoolId, activityName) {
-      currentSchoolId = schoolId;
-      currentActivityName = activityName;
-      selectedVotes = 0;
-      // document.getElementById("selectedVoteCount").innerText = selectedVotes;
-      document.getElementById("voteModal").style.display = "block";
-
-      document.querySelectorAll('.vote-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.vote-btn').forEach(b => b.style.border = 'none');
-        selectedVotes = parseInt(this.dataset.count);
-        this.style.border = '3px solid orange';
-        document.getElementById('amountDisplay').value = `₦ ${selectedVotes * 100}`;
-      });
-    });
-
-    document.getElementById('clearSelection').addEventListener('click', () => {
-      selectedVotes = 0;
-      document.querySelectorAll('.vote-btn').forEach(b => b.style.border = 'none');
-      document.getElementById('amountDisplay').value = '';
-    });
-
-    function closeVoteModal() {
-      document.getElementById("voteModal").style.display = "none";
-    }
-}
-
- // This listens for the click on the "x" button and closes the modal
-  document.addEventListener("DOMContentLoaded", function () {
-    const closeBtn = document.querySelector(".closeBtn");
-    const voteModal = document.getElementById("voteModal");
-
-    closeBtn.addEventListener("click", function () {
-      voteModal.style.display = "none";
-    });
-  });
-
-function proceedToPaystack() {
-  if (selectedVotes <= 0) {
-    alert("Please select vote amount");
-    return;
-  }
-
-  let amountInKobo = selectedVotes * 10000; // ₦100 per vote × 100 kobo
-
-  let handler = PaystackPop.setup({
-    key: 'pk_live_615ebb0069ee567a13a7fd38571a79c25e3a0a7e',
-    email: 'braintreearena@gmail.com', // optional, you can collect real email later
-    amount: amountInKobo,
-    currency: 'NGN',
-    callback: function(response) {
-      // After payment success, send to backend for processing
-      verifyPaymentOnBackend(response.reference);
-    },
-    onClose: function() {
-      alert('Transaction cancelled.');
-    }
-  });
-
-  handler.openIframe();
-}
-
-async function verifyPaymentOnBackend(reference) {
-  try {
-    const res = await fetch('https://school-voting-backend-5ika.onrender.com/api/payment/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        reference: reference,
-        schoolId: currentSchoolId,
-        activity: currentActivityName,
-        votes: selectedVotes
-      })
-    });
-
-    const data = await res.json();
-    if (res.ok) {
-      // closeVoteModal();
-      alert("✅ Vote successful!");
-      loadSchools(); // refresh vote count
-    } else {
-      alert("❌ Failed: " + data.message);
-    }
-  } catch (err) {
-    alert("❌ Error verifying payment.");
-    console.error(err);
-  }
-}
-
-
-async function voteForActivity(schoolId, activity) {
-  alert('Redirecting to payment... (simulated)');
-  setTimeout(async () => {
-    try {
-      const res = await fetch(`https://school-voting-backend-5ika.onrender.com/api/vote/${schoolId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ activity })
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        const countElem = document.getElementById(`vote-count-${schoolId}-${activity}`);
-        if (countElem) {
-          countElem.textContent = parseInt(countElem.textContent) + 1;
+      const proceedToPayment = () => {
+        if (voteCount === 0) {
+          alert('Please select vote amount');
+          return;
         }
 
-        alert('✅ Vote counted!');
-      } else {
-        alert('❌ Failed to vote: ' + data.message);
-      }
-    } catch (err) {
-      alert('❌ Error submitting vote.');
-      console.error(err);
+        const amountInKobo = voteCount * 10000; // ₦100 per vote × 100 kobo
+
+        const handler = window.PaystackPop.setup({
+          key: 'pk_live_615ebb0069ee567a13a7fd38571a79c25e3a0a7e', // ⚠️ Your Paystack key
+          email: 'braintreearena@gmail.com',
+          amount: amountInKobo,
+          currency: 'NGN',
+          ref: 'VOTE-' + Math.floor((Math.random() * 1000000000) + 1),
+          callback: function(response) {
+            verifyPayment(response.reference);
+          },
+          onClose: function() {
+            alert('Payment cancelled');
+          }
+        });
+
+        handler.openIframe();
+      };
+
+      const verifyPayment = async (reference) => {
+        try {
+          const response = await fetch(`${BACKEND_URL}/api/payment/verify`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              reference: reference,
+              schoolId: selectedVote.schoolId,
+              activity: selectedVote.activity,
+              votes: voteCount
+            })
+          });
+
+          const data = await response.json();
+          
+          if (response.ok) {
+            alert('✅ Vote successful!');
+            closeVoteModal();
+            fetchSchools(); // Refresh to show updated votes
+          } else {
+            alert('❌ Failed: ' + data.message);
+          }
+        } catch (error) {
+          alert('❌ Error verifying payment');
+          console.error(error);
+        }
+      };
+
+      const getTotalVotes = (school) => {
+        return Object.values(school.votes || {}).reduce((sum, votes) => sum + votes, 0);
+      };
+
+      return React.createElement('div', { className: 'min-h-screen bg-gradient-to-br from-green-50 via-white to-orange-50' },
+        // Navigation
+        React.createElement('nav', { className: 'bg-white shadow-md' },
+          React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8' },
+            React.createElement('div', { className: 'flex justify-between items-center h-20' },
+              React.createElement('div', { className: 'flex items-center space-x-3' },
+                React.createElement('div', { className: 'w-12 h-12 rounded-full flex items-center justify-center' },
+                  React.createElement('img', 
+                  { 
+                    src: './assets/Assets/logo.jpg',
+                    alt:'logo',
+                    className: 'text-white text-2xl font-bold' 
+                    })
+                ),
+                React.createElement('div', null,
+                  React.createElement('span', { className: 'font-bold text-xl text-green-800' }, 'Braintree Arena'),
+                  React.createElement('p', { className: 'text-xs text-gray-500' }, 'Voting Portal')
+                )
+              ),
+              React.createElement('button', {
+                onClick: () => window.location.href = './arena.html',
+                className: 'flex items-center space-x-2 text-gray-600 hover:text-green-600 transition'
+              },
+                React.createElement('span', null, '← Back to Home')
+              )
+            )
+          )
+        ),
+
+        // Vote Modal
+        showVoteModal && React.createElement('div', { className: 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4' },
+          React.createElement('div', { className: 'bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl' },
+            React.createElement('div', { className: 'flex justify-between items-center mb-6' },
+              React.createElement('h3', { className: 'text-2xl font-bold text-gray-900' }, 'Select Vote Amount'),
+              React.createElement('button', {
+                onClick: closeVoteModal,
+                className: 'text-gray-400 hover:text-gray-600 text-3xl leading-none'
+              }, '×')
+            ),
+
+            React.createElement('p', { className: 'text-gray-600 mb-6' },
+              'Voting for: ',
+              React.createElement('span', { className: 'font-bold text-green-600' }, selectedVote?.activity)
+            ),
+
+            React.createElement('div', { className: 'grid grid-cols-3 gap-3 mb-6' },
+              voteOptions.map(option =>
+                React.createElement('button', {
+                  key: option,
+                  onClick: () => setVoteCount(option),
+                  className: `py-4 rounded-xl font-bold text-lg transition transform hover:scale-105 ${
+                    voteCount === option
+                      ? 'bg-orange-500 text-white shadow-lg'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`
+                }, option)
+              )
+            ),
+
+            React.createElement('button', {
+              onClick: () => setVoteCount(0),
+              className: 'w-full mb-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition'
+            }, 'Clear Selection'),
+
+            React.createElement('div', { className: 'bg-green-50 border-2 border-green-200 rounded-xl p-6 mb-6 text-center' },
+              React.createElement('p', { className: 'text-sm text-gray-600 mb-2' }, 'Total Amount'),
+              React.createElement('p', { className: 'text-4xl font-bold text-green-600' }, '₦' + (voteCount * 100)),
+              React.createElement('p', { className: 'text-sm text-gray-500 mt-2' }, voteCount + ' votes × ₦100')
+            ),
+
+            React.createElement('button', {
+              onClick: proceedToPayment,
+              disabled: voteCount === 0,
+              className: 'w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed'
+            }, 'Proceed to Payment')
+          )
+        ),
+
+        // Main Content
+        React.createElement('main', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12' },
+          // Header
+          React.createElement('div', { className: 'text-center mb-12' },
+            React.createElement('h1', { className: 'text-4xl md:text-5xl font-bold text-gray-900 mb-4' }, 'Vote for Your Favorite School'),
+            React.createElement('p', { className: 'text-xl text-gray-600 mb-2' }, 'Support your school and help them win'),
+            React.createElement('div', { className: 'inline-block bg-yellow-50 border-2 border-yellow-200 px-4 py-2 rounded-full' },
+              React.createElement('p', { className: 'text-yellow-800 font-semibold' },
+                'Each vote costs ',
+                React.createElement('span', { className: 'text-md font-bold' }, '₦100')
+              )
+            )
+          ),
+
+          // Search Bar
+          React.createElement('div', { className: 'max-w-2xl mx-auto mb-12' },
+            React.createElement('div', { className: 'relative' },
+              React.createElement('span', { className: 'absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-400 text-2xl' }, '🔍'),
+              React.createElement('input', {
+                type: 'text',
+                placeholder: 'Search schools by name or LGA...',
+                value: searchTerm,
+                onChange: (e) => setSearchTerm(e.target.value),
+                className: 'w-full pl-16 pr-6 py-5 text-lg border-2 border-gray-200 rounded-full focus:border-green-500 focus:outline-none shadow-lg'
+              })
+            )
+          ),
+
+          // Schools List
+          isLoading ? (
+            React.createElement('div', { className: 'text-center py-20' },
+              React.createElement('div', { className: 'inline-block w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin' }),
+              React.createElement('p', { className: 'mt-4 text-gray-600' }, 'Loading schools...')
+            )
+          ) : filteredSchools.length === 0 ? (
+            React.createElement('div', { className: 'text-center py-20' },
+              React.createElement('p', { className: 'text-xl text-gray-500' }, 'No schools found matching "' + searchTerm + '"')
+            )
+          ) : (
+            React.createElement('div', { className: 'space-y-4' },
+              filteredSchools.map((school) =>
+                React.createElement(SchoolCard, {
+                  key: school._id,
+                  school: school,
+                  isExpanded: expandedSchool === school._id,
+                  onToggle: () => setExpandedSchool(expandedSchool === school._id ? null : school._id),
+                  onVote: openVoteModal,
+                  getTotalVotes: getTotalVotes
+                })
+              )
+            )
+          )
+        ),
+
+        // Footer
+        React.createElement('footer', { className: 'bg-gray-900 text-white py-8 mt-20' },
+          React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center' },
+            React.createElement('p', { className: 'text-gray-400' }, '© 2024 Braintree Company. All rights reserved.')
+          )
+        )
+      );
     }
-  }, 1200);
-}
-  window.onload = loadSchools;
-</script>
 
-  <script src="script.js"></script>
+    function SchoolCard({ school, isExpanded, onToggle, onVote, getTotalVotes }) {
+      const totalVotes = getTotalVotes(school);
 
+      return React.createElement('div', { className: 'bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition' },
+        // School Header
+        React.createElement('div', {
+          onClick: onToggle,
+          className: 'p-6 cursor-pointer hover:bg-gray-50 transition'
+        },
+          React.createElement('div', { className: 'flex justify-between items-center' },
+            React.createElement('div', { className: 'flex-1' },
+              React.createElement('h3', { className: 'text-2xl font-bold text-gray-900 mb-1' }, school.schoolName),
+              React.createElement('p', { className: 'text-gray-500 flex items-center space-x-2' },
+                React.createElement('span', null, school.lga + ', ' + school.state)
+              )
+            ),
+            
+            React.createElement('div', { className: 'flex items-center space-x-6' },
+              React.createElement('div', { className: 'text-right' },
+                React.createElement('div', { className: 'flex items-center space-x-2' },
+                  React.createElement('span', { className: 'text-2xl' }, '📊'),
+                  React.createElement('span', { className: 'text-3xl font-bold text-green-600' }, totalVotes)
+                ),
+                React.createElement('p', { className: 'text-sm text-gray-500' }, 'total votes')
+              ),
+              
+              React.createElement('div', { className: 'text-gray-400' },
+                React.createElement('span', { className: 'text-2xl' }, isExpanded ? '▲' : '▼')
+              )
+            )
+          )
+        ),
+
+        // Activities Table
+        isExpanded && React.createElement('div', { className: 'border-t border-gray-200 p-6 bg-gray-50' },
+          React.createElement('div', { className: 'overflow-x-auto' },
+            React.createElement('table', { className: 'w-full' },
+              React.createElement('thead', null,
+                React.createElement('tr', { className: 'border-b-2 border-gray-200' },
+                  React.createElement('th', { className: 'text-left py-3 px-4 font-bold text-gray-700' }, 'Activity'),
+                  React.createElement('th', { className: 'text-center py-3 px-4 font-bold text-gray-700' }, 'Current Votes'),
+                  React.createElement('th', { className: 'text-center py-3 px-4 font-bold text-gray-700' }, 'Action')
+                )
+              ),
+              React.createElement('tbody', null,
+                Object.entries(school.votes || {}).map(([activity, votes]) =>
+                  React.createElement('tr', { 
+                    key: activity,
+                    className: 'border-b border-gray-100 hover:bg-white transition'
+                  },
+                    React.createElement('td', { className: 'py-4 px-4 font-medium text-gray-800' }, activity),
+                    React.createElement('td', { className: 'text-center py-4 px-4' },
+                      React.createElement('span', { className: 'inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full font-bold' }, votes)
+                    ),
+                    React.createElement('td', { className: 'text-center py-4 px-4' },
+                      React.createElement('button', {
+                        onClick: () => onVote(school._id, activity),
+                        className: 'bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition'
+                      }, 'Vote Now')
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+
+    // Render the app
+    createRoot(document.getElementById('root')).render(React.createElement(VotingPage));
+  </script>
 </body>
-
 </html>
-
