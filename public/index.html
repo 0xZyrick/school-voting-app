@@ -1,838 +1,471 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Braintree Company </title>
   <link rel="icon" href="./assets/Assets/logo.jpg" type="image/jpg">
-  <title>Braintree</title>
-
-  <style>
-    /* Fullscreen Overlay */
-.intro-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: #0000004d;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  
-}
-
-.intro-image {
-  /* width: 100%;
-  height: 100%; */
-  object-fit: cover;
-  position: absolute;
-  /* z-index: -1; */
-  /* top: 0;
-  left: 0; */
-  max-width: 90vw;     /* Don't exceed the screen width */
-  max-height: 90vh;    /* Don't exceed the screen height */
-  width: auto;
-  height: auto;
-  object-fit: contain;  /* Make sure it scales proportionally */
-  position: fixed;      /* If it's an overlay */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;         /* Center it */
-  z-index: -1;        /* Make sure it stays on top */
-}
-
-.close-text {
-  position: relative;
-  color: white;
-  margin-top: 20px;
-  font-size: 20px;
-  text-decoration: underline;
-  cursor: pointer;
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px 20px;
-  border-radius: 6px;
-}
-    .container {
-    display: flex;
-    justify-content: space-around; /* Adds space between boxes */
-    align-items: center;
-    flex-wrap: wrap; /* Allows wrapping on smaller screens */
-    padding: 40px;
-    gap: 5px;
-  }
-
-  .box {
-    flex: 1 1 calc(25%-2px); /* Ensures all boxes are equal width */
-    max-width: 1500px; /* Sets max width for each box */
-    height: 150px; /* Fixed height for all boxes */
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    overflow: hidden;
-  }
-
-  .box:hover {
-    /* background-color: #ccc; */
-    transform: rotate(0deg) scale(1.05);
-  }
-
-  
-.mainhero{
-    padding: 50px 20px;
-    text-align: center;
-    background: #006029;
-    color: #ffffff; 
-}
-
-.hero-content {
-    max-width: 700px;
-    margin: 0 auto 30px;
-}
-
-.hero-content h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #FFFFFF;
-    line-height: 1.5;
-}
-
-.hero-content p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
-
-.hero-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-.hero-buttons a {
-    text-decoration: none;
-    padding: 12px 25px;
-    font-size: 1rem;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-    display: inline-block;
-}
-
-.hero-buttons .mainhero-btn-primary {
-    background-color: #00923F;
-    color: #ffffff;
-    font-weight: bold;
-}
-
-.hero-buttons .mainhero-btn-primary:hover {
-    background-color: rgb(230, 230, 230);
-    color: #006029;
-}
-
-.hero-buttons .mainhero-btn-secondary {
-    background-color: transparent;
-    color: white;
-    border: 1px solid #F5B901;
-}
-
-.hero-buttons .mainhero-btn-secondary:hover {
-    background-color: white;
-    color: black
-}
-
-.heroimage {
-    height: 100%;
-    width: auto;
-}
-
-
-/* Responsiveness */
-@media (max-width: 900px) {
-    .box {
-        flex: 1 1 calc(50% - 2px); /* 2 boxes per row on medium screens */
-    }
-    
-    }
-    .hero-content h1 {
-        font-size: 2rem;
-        line-height: 1.2;
-    }
-
-    .hero-content p {
-        font-size: 1rem;
-        line-height: 1.5;
-    }
-
-@media (max-width: 900px) {
-    .heroBox {
-          max-width: 90%; /* Set the container width to 90% of the viewport width on smaller screens */
-        }
-      }
-      
-@media (max-width: 480px) {
-    .heroBox {
-          max-width: 100%; /* Set the container width to 100% of the viewport width on very small screens */
-        }
-      }
-
-/* About Section Styles */
-.about {
-    padding: 50px 20px;
-    background-color: white;
-}
-
-.about-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-}
-
-.about-image {
-    flex: 1;
-    text-align: center;
-}
-
-.about-image img {
-    width: 100%;
-    max-width: 500px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.about-content {
-    flex: 1;
-    padding: 20px;
-}
-
-.about-content h2 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.about-content p {
-    font-size: 1.2rem;
-    line-height: 1.5;
-    margin-bottom: 20px;
-    color: #666;
-}
-
-.about-content .btn-primary {
-    text-decoration: none;
-    background-color: #006029;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.about-content .btn-primary:hover {
-    background-color: #001E0D;
-}
-
-/* Responsiveness */
-@media (max-width: 900px) {
-    .about-container {
-        flex-direction: row;
-        text-align: center;
-    }
-
-    .about-content {
-        padding: 0;
-    }
-
-    .about-content h2 {
-        font-size: 2rem;
-    }
-
-    .about-content p {
-        font-size: 1rem;
-    }
-
-    .about-image img {
-        max-width: 90%;
-    }
-}
-
-/* Discover Section Styles */
-.discover {
-    /* display: flex; */
-    padding: 50px 20px;
-    /* background-color: #fff; */
-    /* background-color: linear-gradient(135deg, #0056b3 #ffffff); */
-    text-align: center;
-    /* color: #333; */
-}
-
-.discover h2 {
-    font-size: 2.5rem;
-    margin-bottom: 40px;
-    color: #000000;
-}
-
-.cards-container {
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-/* Scoped Discover Section Styles */
-.discover .card {
-    position: relative;
-    background-color: #f9f9f9;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: calc(30% - 20px); /* Three cards fit horizontally */
-    transform: rotate(0deg); /* Tilt the card */
-    transition: transform 0.3s ease;
-}
-
-.discover .card:hover {
-    transform: rotate(0deg) scale(1.05); /* Straighten and enlarge slightly on hover */
-}
-
-
-.card:hover {
-    transform: rotate(0deg) scale(1.05); /* Straighten and enlarge slightly on hover */
-}
-
-.card img {
-    width: 100%;
-    border-radius: 5px 5px 0 0;
-}
-
-.card-content {
-    padding: 20px;
-    text-align: left;
-}
-
-.card-content h3 {
-    font-size: 1.5rem;
-    color: #000000;
-    margin-bottom: 10px;
-}
-
-.card-content p {
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #666;
-}
-
-/* Responsiveness */
-@media (max-width: 900px) {
-    .cards-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .card {
-        width: 90%; /* Stack cards vertically */
-    }
-
-    .card:hover {
-        transform: scale(1.05); /* Slight enlargement without tilt on hover */
-    }
-    .card-content h3 {
-        font-size: 1.5rem;
-    }
-
-    .card-content p {
-        font-size: 0.9rem;
-    }
-}
-
-
-/* Program section */
-.programs {
-    padding: 50px 20px;
-    /* background-color: #f4f4f4; */
-    text-align: center;
-}
-
-.Programs-header {
-    margin-bottom: 30px;
-}
-
-.Programs-header h2 {
-    font-size: 2.5rem;
-    color: black;
-}
-
-.Programs-header p {
-    font-size: 1rem;
-    color: #000000;
-}
-
-/* Programs Container */
-.programs-container {
-    display: flex; /* Horizontal layout */
-    flex-wrap: nowrap; /* No wrapping */
-    overflow-x: auto; /* Horizontal scrolling */
-    gap: 10px; /* Spacing between cards */
-    padding: 10px 0; /* Add padding for a clean scroll area */
-}
-
-.program-card {
-    flex: 0 0 auto; /* Maintain size */
-    width: 250px; /* Card width */
-    height: 200px; /* Card height */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background-color: #EB8900;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.3s, background-color 0.3s;
-}
-
-.program-card:nth-child(odd) {
-    background-color: #158445;
-}
-
-.program-card h3 {
-    font-size: 1.5rem;
-    color: #ffffff;
-    margin-bottom: 0;
-}
-
-.program-card p {
-    font-size: 1rem;
-    color: #ffffff;
-    display: none; /* Hidden by default */
-}
-
-.program-card:hover {
-    transform: scale(1.05);
-}
-
-.program-card:hover p {
-    display: block; /* Show description on hover */
-}
-
-.program-card:hover h3 {
-    color: #ffffff;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 900px) {
-    .programs-container {
-        display: grid; /* Switch to grid layout */
-        grid-template-columns: repeat(2, 1fr); /* 2 columns */
-        gap: 10px;
-    }
-
-    .program-card {
-        height: 100px; /* Adjust height */
-        padding: 10px;
-        text-align: center;
-    }
-
-    .program-card p {
-        display: none; /* No descriptions on mobile */
-    }
-
-    .program-card h3 {
-        font-size: 1rem;
-    }
-}
-
-/* Events Section */
-.events {
-    padding: 50px 20px;
-    background-color: #f8f9fa;
-    text-align: center;
-}
-
-.events-header {
-    margin-bottom: 20px;
-}
-
-.events-header h2 {
-    font-size: 2.5rem;
-    color: black;
-}
-
-.events-header p {
-    font-size: 1.2rem;
-    color: #666;
-}
-
-/* Video Card */
-.video-card {
-    max-width: 800px;
-    margin: 0 auto;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: #fff;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.video-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.video-thumbnail img {
-    width: 100%;
-    height: auto;
-}
-
-.video-info {
-    padding: 15px;
-    text-align: center;
-}
-
-.video-info h3 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.video-info p {
-    font-size: 1rem;
-    color: #666;
-}
-
-
-/* Application Process Section */
-.application-process {
-    padding: 50px 20px;
-    background-color: #f9f9f9;
-    text-align: center;
-}
-
-.process-header {
-    margin-bottom: 30px;
-}
-
-.process-header h2 {
-    font-size: 2.5rem;
-    color: #000000;
-}
-
-.process-header p {
-    font-size: 1.2rem;
-    color: #555;
-}
-
-/* Process Cards */
-.process-cards {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.process-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    max-width: 300px;
-    text-align: left;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.process-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.card-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.card-header img {
-    width: 50px;
-    height: 50px;
-    margin-right: 15px;
-}
-
-.card-header h3 {
-    font-size: 1.5rem;
-    color: #333;
-    margin: 0;
-}
-
-.process-card p {
-    font-size: 1rem;
-    color: #666;
-    line-height: 1.5;
-}
-  </style>
-
-    <link rel="stylesheet" href="./assets/styles.css">
-
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-
 <body>
-    <!-- Intro Overlay -->
-<div id="introOverlay" class="intro-overlay">
-  <img src="./assets/Assets/GRAPHICS IMAGE.jpg" alt="Welcome" class="intro-image">
-  <p class="close-text" onclick="closeIntro()">Close</p>
-</div>
+  <div id="root"></div>
 
-  <header>
-    <nav class="main-navbar">
-        <!-- Logo -->
-        <div class="navbar-brand">
-          <img src="./assets/Assets/logo.jpg" alt="Company Logo" class="logo">
-          <span class="company-name">Braintree Company</span>
-        </div>
-        <!-- Navigation Links -->
-        <ul class="navbarLinks">
-          <li><a href="./index.html">HOME</a></li>
-          <li><a href="./register.html">REGISTER</a></li>
-          <li><a href="./vote.html">VOTE</a></li>
-      </ul>
+  <script type="module">
+    import React, { useState, useEffect, useRef } from 'https://esm.sh/react@18.2.0';
+    import { createRoot } from 'https://esm.sh/react-dom@18.2.0/client';
 
-        <!-- Call-to-Action Button -->
-        <a href="./register.html" class="navCta">Register Now</a>
+    const BACKEND_URL = "https://school-voting-backend-5ika.onrender.com";
 
-        <!-- Hamburger Menu -->
-        <div class="navbar-Hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
+    function BraintreeCompanyHome() {
+      const [isDark, setIsDark] = useState(false);
+      const [isMenuOpen, setIsMenuOpen] = useState(false);
+      const [scrollY, setScrollY] = useState(0);
 
-    <!-- Dropdown Menu for Mobile -->
-    <div class="nav-dropdown">
-        <ul>
-            <li><a href="./index.html">HOME</a></li>
-            <li><a href="./register.html">REGISTER</a></li>
-            <li><a href="./vote.html">VOTE</a></li>
-            <li><a href="./register.html" class="cta-btn">Register Now</a></li>
-        </ul>
-    </div>
-</header>
+      useEffect(() => {
+        const handleScroll = () => setScrollY(window.scrollY);
+        window.addEventListener('scroll', handleScroll);
+        
+        // Apply dark mode to body
+        if (isDark) {
+          document.body.classList.add('bg-gray-900', 'text-white');
+        } else {
+          document.body.classList.remove('bg-gray-900', 'text-white');
+        }
+        
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, [isDark, scrollY]);
 
-  <div class="screen-warning-banner">
-  For better viewing experience, Switch to a bigger screen or desktop view.
-</div>
-  <!-- Hero Section -->
-<main>
-       <section class="mainhero">
-        <div class="hero-content">
-            <h1>The Arena: Where the Best meet the Best</h1>
-            <p>Showcasing brilliance and talent in Imo state schools. Register today and take the stage!</p>
-            <div class="hero-buttons">
-                <a href="./register.html" class="mainhero-btn-primary">Register Now</a>
-                <a href="./vote.html" class="mainhero-btn-secondary">Vote Now</a>
-            </div>
-        </div>
-        <div class="container">
-            <span class="box heroBox">
-                <img src="./assets/Assets/hero 1.png" alt="Competition Image" class="heroimage">
-            </span>
-            <span class="box heroBox">
-                <img src="./assets/Assets/hero 2.png" alt="Competition Image" class="heroimage">
-            </span>
-            <span class="box heroBox">
-                <img src="./assets/Assets/hero 3.png" alt="Competition Image" class="heroimage">
-            </span>
-            <span class="box heroBox">
-                <img src="./assets/Assets/hero 4.png" alt="Competition Image" class="heroimage">
-            </span>
-          </div>
-    </section>
+      const toggleTheme = () => setIsDark(!isDark);
 
-    <section class="about">
-        <div class="about-container">
-            <div class="about-image">
-                <img src="./assets/Assets/About team.png" alt="About Us">
-            </div>
-            <div class="about-content">
-                <h2>About Us</h2>
-                <p>
-                    With a focus on fostering critical thinking, artistic expression, and cultural appreciation, The Arena provides a platform for students to showcase their talents in a competitive and supportive environment.
-                </p>
-            </div>
-        </div>
-    </section>
-    
-    <section class="discover">
-        <h2>Discover, Compete, Shine!</h2>
-        <div class="cards-container">
-            <div class="card">
-                <img src="./assets/Assets/Discover 1.png" alt="Discover">
-                <div class="card-content">
-                    <h3>Exciting Competitions:</h3>
-                    <p>Engage in thrilling challenges designed to ignite creativity and showcase your talents. Each competition is a journey of discovery, pushing you to think outside the box and excel.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="./assets/Assets/discover 2.png" alt="Compete">
-                <div class="card-content">
-                    <h3>Recognition & Prizes</h3>
-                    <p>Stand out and earn well-deserved recognition for your skills, with incredible prizes awaiting top performers. Your hard work and creativity won't go unnoticed.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="./assets/Assets/discover 3.png" alt="Shine">
-                <div class="card-content">
-                    <h3>Platform for Excellence</h3>
-                    <p>Step onto a platform that celebrates innovation, dedication, and achievement. This competition is your gateway to showcasing excellence and building a brighter future.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+      return React.createElement('div', { className: `min-h-screen transition-colors duration-500 ${isDark ? 'bg-gray-900' : 'bg-white'}` },
+        React.createElement(Navigation, { isDark, toggleTheme, isMenuOpen, setIsMenuOpen }),
+        React.createElement(CinematicHero, { isDark, scrollY }),
+        React.createElement(StatsSection, { isDark }),
+        React.createElement(ProductsSection, { isDark }),
+        React.createElement(ActivitiesShowcase, { isDark }),
+        React.createElement(TeamSection, { isDark }),
+        React.createElement(CTASection, { isDark }),
+        React.createElement(Footer, { isDark })
+      );
+    }
 
-    
-    <section class="programs">
-        <div class="Programs-header">
-            <h2>Programs</h2>
-            <p>Explore our variety of programs designed for everyone.</p>
-        </div>
-        <div class="programs-container">
-            <div class="program-card" onclick="location.href='#link1';">
-                <h3>Word formation</h3>
-                <p>A game where contestants form as many words as possible from random letters within 60 seconds.</p>
-            </div>
-            <div class="program-card" onclick="location.href='#link2';">
-                <h3>Word Identification</h3>
-                <p>Contestants identify scrambled English words within 60 seconds. Each correct word earns 10 points.</p>
-            </div>
-            <div class="program-card" onclick="location.href='#link3';">
-                <h3>Creative writing </h3>
-                <p>Contestants craft imaginative short stories based on given topics, using drama or playlet formats.</p>
-            </div>
-            <div class="program-card" onclick="location.href='#link4';">
-                <h3>Poetry competition</h3>
-                <p>Contestants write and perform original poems on stage, accompanied by soundtracks.</p>
-            </div>
-            <div class="program-card" onclick="location.href='#link5';">
-                <h3>Music/singing competition</h3>
-                <p>Contestants compose and perform original songs.</p>
-            </div>
-            <div class="program-card" onclick="location.href='#link6';">
-                <h3>Cultural dance competition</h3>
-                <p>Teams of 6-8 students showcase cultural dances with traditional attire, highlighting cultural heritage. </p>
-            </div>
-            <div class="program-card" onclick="location.href='#link7';">
-                <h3>Public debate competition.</h3>
-                <p>Teams of 4 speakers debate on national topics.</p>
-            </div>
-        </div>
-    </section>
+    // Navigation Component
+    function Navigation({ isDark, toggleTheme, isMenuOpen, setIsMenuOpen }) {
+      const [scrolled, setScrolled] = useState(false);
 
-    
- <section class="events">
-    <div class="events-header">
-        <h2>Events</h2>
-        <p>Stay updated with our latest live-streamed events.</p>
-    </div>
-    <div class="video-card" onclick="window.open('https://www.youtube.com/@braintreearena3409', '_blank')">
-        <div class="video-thumbnail">
-            <img src="https://img.youtube.com/vi/9qzJABfeX-s/hqdefault.jpg" alt="YouTube Live Stream">
-        </div>
-        <div class="video-info">
-            <h3>Join Our Live Stream!</h3>
-            <p>Click to watch live on YouTube.</p>
-        </div>
-    </div>
-</section>
+      useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 50);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
 
-    <section class="application-process">
-        <div class="process-header">
-            <h2>Application Process</h2>
-            <p>Follow these steps to complete your application smoothly.</p>
-        </div>
-        <div class="process-cards">
-            <div class="process-card">
-                <div class="card-header">
-                    <!-- <img src="https://via.placeholder.com/50" alt="Step 1 Icon"> -->
-                        <h3>
-                            <i class="fa-solid fa-address-card"></i> Registration
-                        </h3>
-                </div>
-                <p>Schools register by submitting their contestants, with a registration fee of N5,000 per participant. Ensure all students are eligible to compete and follow the registration guidelines.</p>
-            </div>
-            <div class="process-card">
-                <div class="card-header">
-                    <h3>
-                        <i class="fa-solid fa-person-chalkboard"></i> Workshop Training
-                    </h3>
-                </div>
-                <p>Complete the application form with all necessary information.</p>
-            </div>
-            <div class="process-card">
-                <div class="card-header">
-                    <!-- <img src="https://via.placeholder.com/50" alt="Step 3 Icon"> -->
-                    <h3><i class="fa-solid fa-trophy"></i> Competition Stages</h3>
-                </div>
-                <p>The competition will proceed through group stages, quarter-finals, semi-finals, and the grand finals. Contestants will be evaluated based on performance, with voting and judges' scores determining the winners.</p>
-            </div>
-        </div>
-    </section>
-</main>
+      return React.createElement('nav', { className: `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? (isDark ? 'bg-gray-900 bg-opacity-95 backdrop-blur-lg shadow-lg' : 'bg-white bg-opacity-95 backdrop-blur-lg shadow-lg') : 'bg-transparent'}` },
+        React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8' },
+          React.createElement('div', { className: 'flex justify-between items-center h-20' },
+            React.createElement('div', { className: 'flex items-center space-x-3' },
+                React.createElement('div', { className: 'w-12 h-12 rounded-full flex items-center justify-center' },
+                  React.createElement('img', 
+                  { 
+                    src: './assets/Assets/logo.jpg',
+                    alt:'logo',
+                    className: 'text-white text-2xl font-bold' 
+                    })
+                ),
+              React.createElement('div', null,
+                React.createElement('span', { className: `font-bold text-xl ${isDark ? 'text-white' : 'text-gray-900'}` }, 'Braintree Company'),
+                React.createElement('p', { className: `text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}` }, 'Empowering Excellence')
+              )
+            ),
 
-<footer class="footer">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <img src="./assets/Assets/logo.jpg" alt="Company Logo" class="logo">
-                <span>Braintree Company</span>
-            </div>
-            <div class="footer-links">
-                <ul>
-                    <li><a href="./register.html">HOME</a></li>
-                    <li><a href="./register.html">REGISTER</a></li>
-                    <li><a href="./vote.html">VOTE</a></li>
-                </ul>
-            </div>
-            <div class="footer-social">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 My Website. All rights reserved.</p>
-        </div>
-</footer>
+            React.createElement('div', { className: 'hidden md:flex items-center space-x-8' },
+              React.createElement('a', { href: '#home', className: `${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-green-600'} font-medium transition` }, 'Home'),
+              React.createElement('a', { href: '#products', className: `${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-green-600'} font-medium transition` }, 'Products'),
+              React.createElement('a', { href: '#team', className: `${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-green-600'} font-medium transition` }, 'Team'),
+              
+              React.createElement('button', {
+                onClick: toggleTheme,
+                className: `p-2 rounded-full ${isDark ? 'bg-gray-800 text-yellow-400' : 'bg-gray-100 text-gray-700'} hover:scale-110 transition-transform`
+              }, isDark ? '☀️' : '🌙')
+            ),
 
-<script>
+            React.createElement('div', { className: 'md:hidden flex items-center space-x-4' },
+              React.createElement('button', {
+                onClick: toggleTheme,
+                className: `p-2 rounded-full ${isDark ? 'bg-gray-800 text-yellow-400' : 'bg-gray-100 text-gray-700'}`
+              }, isDark ? '☀️' : '🌙'),
+              React.createElement('button', {
+                onClick: () => setIsMenuOpen(!isMenuOpen),
+                className: isDark ? 'text-white' : 'text-gray-900'
+              }, React.createElement('span', { className: 'text-2xl' }, isMenuOpen ? '✕' : '☰'))
+            )
+          )
+        ),
 
-  function closeIntro() {
-    const overlay = document.getElementById('introOverlay');
-    overlay.style.display = 'none';
-  }
+        isMenuOpen && React.createElement('div', { className: `md:hidden ${isDark ? 'bg-gray-900' : 'bg-white'} border-t ${isDark ? 'border-gray-800' : 'border-gray-200'}` },
+          React.createElement('div', { className: 'px-4 py-6 space-y-4' },
+            React.createElement('a', { href: '#home', className: `block ${isDark ? 'text-gray-300' : 'text-gray-700'} font-medium` }, 'Home'),
+            React.createElement('a', { href: '#products', className: `block ${isDark ? 'text-gray-300' : 'text-gray-700'} font-medium` }, 'Products'),
+            React.createElement('a', { href: '#team', className: `block ${isDark ? 'text-gray-300' : 'text-gray-700'} font-medium` }, 'Team')
+          )
+        )
+      );
+    }
 
-  window.onload = function() {
-  if (!sessionStorage.getItem('visited')) {
-    document.getElementById('introOverlay').style.display = 'flex';
-    sessionStorage.setItem('visited', 'true');
-  } else {
-    document.getElementById('introOverlay').style.display = 'none';
-  }
-};
+    // Cinematic Hero
+    function CinematicHero({ isDark, scrollY }) {
+      return React.createElement('section', {
+        id: 'home',
+        className: `relative min-h-screen flex items-center justify-center overflow-hidden ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-green-50 to-orange-50'}`
+      },
+        React.createElement('div', {
+          className: 'relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center',
+          style: { transform: `translateY(${scrollY * 0.3}px)` }
+        },
+        //   React.createElement('div', { className: 'mb-8 inline-flex items-center space-x-2 bg-gradient-to-r from-green-600 to-green-700 px-6 py-3 rounded-full text-white shadow-lg' },
+        //     React.createElement('span', { className: 'text-xl' }, '✨'),
+        //     React.createElement('span', { className: 'font-semibold' }, 'Transforming Education & Innovation')
+        //   ),
 
-</script>
+          React.createElement('h1', { className: `text-5xl md:text-8xl mt-[60px] font-bold mb-8 leading-tight ${isDark ? 'text-white' : 'text-gray-900'}` },
+            'Welcome to',
+            React.createElement('br'),
+            React.createElement('span', { className: 'bg-gradient-to-r from-green-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent' }, ' Braintree Company')
+          ),
 
+          React.createElement('p', { className: `text-xl md:text-2xl mb-12 max-w-3xl mx-auto ${isDark ? 'text-gray-300' : 'text-gray-600'}` },
+            'Empowering students, schools, and communities through innovative educational platforms and transformative competitions'
+          ),
+
+          React.createElement('div', { className: 'flex flex-wrap justify-center gap-6 mb-16' },
+            React.createElement('button', {
+            onClick: () => { 
+                document.getElementById('products')?.scrollIntoView({
+                    behavior: 'smooth'
+                })
+            },
+              className: 'bg-gradient-to-r from-green-600 to-green-700 text-white px-10 py-4 rounded-full font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition'
+            }, 'Explore Our Products →'),
+
+            React.createElement('button', {
+              className: `px-10 py-4 rounded-full font-bold text-lg border-2 ${isDark ? 'border-white text-white hover:bg-white hover:text-gray-900' : 'border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white'} transition`
+            }, 'Watch Our Story')
+          )
+        )
+      );
+    }
+
+    // Stats Section with Rolling Numbers
+    function StatsSection({ isDark }) {
+      const [isVisible, setIsVisible] = useState(false);
+      const sectionRef = useRef(null);
+
+      useEffect(() => {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setIsVisible(true);
+            }
+          },
+          { threshold: 0.3 }
+        );
+
+        if (sectionRef.current) {
+          observer.observe(sectionRef.current);
+        }
+
+        return () => observer.disconnect();
+      }, []);
+
+      return React.createElement('section', {
+        ref: sectionRef,
+        className: `py-20 ${isDark ? 'bg-gray-800' : 'bg-white'}`
+      },
+        React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8' },
+          React.createElement('div', { className: 'grid grid-cols-2 md:grid-cols-4 gap-8' },
+            React.createElement(RollingStatCard, { end: 45, suffix: '+', label: 'Schools Reached', isDark, isVisible }),
+            React.createElement(RollingStatCard, { end: 12450, label: 'Students Impacted', isDark, isVisible }),
+            React.createElement(RollingStatCard, { end: 7, label: 'Active Programs', isDark, isVisible }),
+            React.createElement(RollingStatCard, { end: 2.5, suffix: 'M', label: 'Total Prize Pool', isDark, isVisible })
+          )
+        )
+      );
+    }
+
+    function RollingStatCard({ icon, end, suffix = '', label, isDark, isVisible }) {
+      const [count, setCount] = useState(0);
+
+      useEffect(() => {
+        if (!isVisible) return;
+
+        const duration = 2000;
+        const steps = 60;
+        const increment = end / steps;
+        let current = 0;
+
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= end) {
+            setCount(end);
+            clearInterval(timer);
+          } else {
+            setCount(current);
+          }
+        }, duration / steps);
+
+        return () => clearInterval(timer);
+      }, [isVisible, end]);
+
+      const displayValue = suffix === 'M' ? count.toFixed(1) : Math.floor(count).toLocaleString();
+
+      return React.createElement('div', { className: `text-center p-8 rounded-2xl ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-green-50 to-orange-50'} transform hover:scale-105 transition-all duration-300` },
+        React.createElement('div', { className: 'text-5xl mb-4' }, icon),
+        React.createElement('div', { className: `text-5xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}` }, displayValue + suffix),
+        React.createElement('div', { className: `text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-600'}` }, label)
+      );
+    }
+
+    // Products Section
+    function ProductsSection({ isDark }) {
+      const products = [
+        { name: 'Braintree Arena', desc: 'Inter-school competition platform showcasing academic excellence and creativity', status: 'Live', color: 'green', link: './arena.html', available: true },
+        { name: 'Braintree Radio', desc: 'Online learning platform for skill development and academic advancement', status: 'Coming Soon', color: 'yellow', available: false },
+        { name: 'Innovation Hub', desc: 'Entrepreneurship and innovation program for young minds', status: 'In Development', color: 'orange', available: false }
+      ];
+
+      return React.createElement('section', {
+        id: 'products',
+        className: `py-24 ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-white to-gray-50'}`
+      },
+        React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8' },
+          React.createElement('div', { className: 'text-center mb-16' },
+            React.createElement('h2', { className: `text-5xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}` }, 'Our Products'),
+            React.createElement('p', { className: `text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto` }, 'Innovative solutions transforming education and empowering the next generation')
+          ),
+
+          React.createElement('div', { className: 'grid md:grid-cols-3 gap-8' },
+            products.map((product, index) =>
+              React.createElement('div', {
+                key: index,
+                className: `group relative overflow-hidden rounded-3xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2`
+              },
+                React.createElement('div', { className: 'relative p-8' },
+                  React.createElement('div', { className: 'flex justify-between items-start mb-6' },
+                    React.createElement('div', { className: `p-4 rounded-2xl ${isDark ? 'bg-gray-700' : 'bg-gradient-to-br from-green-100 to-orange-100'} group-hover:scale-110 transition-transform` },
+                      React.createElement('span', { className: 'text-4xl' }, index === 0 ? '' : index === 1 ? '' : '')
+                    ),
+                    React.createElement('div', { className: `px-4 py-2 rounded-full text-white text-sm font-bold ${product.color === 'green' ? 'bg-green-500' : product.color === 'yellow' ? 'bg-yellow-500' : 'bg-orange-500'}` }, product.status)
+                  ),
+
+                  React.createElement('h3', { className: `text-2xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}` }, product.name),
+                  React.createElement('p', { className: `mb-6 ${isDark ? 'text-gray-400' : 'text-gray-600'} leading-relaxed` }, product.desc),
+
+                  product.available 
+                    ? React.createElement('button', {
+                        onClick: () => window.location.href = product.link,
+                        className: 'w-full bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transform hover:scale-105 transition'
+                      }, 'Explore Now →')
+                    : React.createElement('button', {
+                        disabled: true,
+                        className: `w-full ${isDark ? 'bg-gray-700 text-gray-500' : 'bg-gray-200 text-gray-400'} px-6 py-3 rounded-xl font-bold cursor-not-allowed`
+                      }, product.status)
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+
+    // Activities Showcase
+    function ActivitiesShowcase({ isDark }) {
+      return React.createElement('section', { className: `py-24 ${isDark ? 'bg-gray-800' : 'bg-white'}` },
+        React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8' },
+          React.createElement('div', { className: 'text-center mb-16' },
+            React.createElement('h2', { className: `text-5xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}` }, 'Our Impact in Action'),
+            React.createElement('p', { className: `text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'}` }, 'Witness the transformation we bring to education')
+          ),
+
+          React.createElement('div', { className: 'grid md:grid-cols-2 gap-8' },
+            [
+              { title: 'Cultural Dance Showcase', desc: 'Students celebrating heritage through traditional performances', img: 'https://www.youtube.com/watch?v=QIS_oxfQQfo' },
+              { title: 'Public Speaking Excellence', desc: 'Empowering young voices to lead conversations', img: 'https://www.youtube.com/watch?v=wSLDWCr1l-0' },
+              { title: 'Creative Expression', desc: 'Nurturing literary talents and storytelling skills', img: 'https://www.youtube.com/watch?v=90Ct1t23_Q8' },
+              { title: 'Innovation & Technology', desc: 'Preparing students for the digital future', img: 'https://www.youtube.com/watch?v=VacuE0LLti8' }
+            ].map((activity, index) =>
+              React.createElement(ActivityCard, { key: index, ...activity, isDark })
+            )
+          )
+        )
+      );
+    }
+
+    function ActivityCard({ title, desc, img, isDark }) {
+      const [isVisible, setIsVisible] = useState(false);
+      const cardRef = useRef(null);
+
+      useEffect(() => {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setIsVisible(true);
+            }
+          },
+          { threshold: 0.2 }
+        );
+
+        if (cardRef.current) {
+          observer.observe(cardRef.current);
+        }
+
+        return () => observer.disconnect();
+      }, []);
+
+      return React.createElement('div', {
+        ref: cardRef,
+        className: `group relative overflow-hidden rounded-3xl shadow-xl transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`
+      },
+        React.createElement('img', { src: img, alt: title, className: 'w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500' }),
+        React.createElement('div', { className: 'absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70' }),
+        React.createElement('div', { className: 'absolute bottom-0 left-0 right-0 p-8 text-white' },
+          React.createElement('h3', { className: 'text-2xl font-bold mb-2' }, title),
+          React.createElement('p', { className: 'text-gray-200' }, desc)
+        )
+      );
+    }
+
+    // Team Section
+    function TeamSection({ isDark }) {
+      const team = [
+        { name: 'Barry Cosmos', role: 'Chief Executive Officer', img: './assets/Assets/barry-cosmos.jpg' },
+        { name: 'Humble Chigozie', role: 'Technical Director', img: './assets/Assets/Zyrick.png' },
+        // { name: 'Obiora Chidi', role: 'Technical Director', img: 'https://via.placeholder.com/300x300/EB8900/FFFFFF?text=CTO' }
+        // { name: 'Ngozi Eze', role: 'Education Coordinator', img: 'https://via.placeholder.com/300x300/F5B901/FFFFFF?text=EDU' }
+      ];
+
+      return React.createElement('section', {
+        id: 'team',
+        className: `py-24 ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-green-50 to-orange-50'}`
+      },
+        React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8' },
+          React.createElement('div', { className: 'text-center mb-16' },
+            React.createElement('h2', { className: `text-5xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}` }, 'Meet Our Team'),
+            React.createElement('p', { className: `text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'}` }, 'The passionate people driving our mission forward')
+          ),
+
+          React.createElement('div', { className: 'grid md:grid-cols-2 gap-8 m-8' },
+            team.map((member, index) =>
+              React.createElement(TeamMemberCard, { key: index, member, isDark, index })
+            )
+          )
+        )
+      );
+    }
+
+    function TeamMemberCard({ member, isDark, index }) {
+      const [isVisible, setIsVisible] = useState(false);
+      const cardRef = useRef(null);
+
+      useEffect(() => {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => setIsVisible(true), index * 200);
+            }
+          },
+          { threshold: 0.2 }
+        );
+
+        if (cardRef.current) {
+          observer.observe(cardRef.current);
+        }
+
+        return () => observer.disconnect();
+      }, [index]);
+
+      return React.createElement('div', {
+        ref: cardRef,
+        className: `group text-center transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`
+      },
+        React.createElement('div', { className: 'relative mb-6 overflow-hidden rounded-2xl' },
+          React.createElement('img', { src: member.img, alt: member.name, className: 'w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500' }),
+          React.createElement('div', { className: 'absolute inset-0 bg-gradient-to-t from-green-600 to-transparent opacity-0 group-hover:opacity-70 transition-opacity' })
+        ),
+        React.createElement('h3', { className: `text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}` }, member.name),
+        React.createElement('p', { className: isDark ? 'text-gray-400' : 'text-gray-600' }, member.role)
+      );
+    }
+
+    // CTA Section
+    function CTASection({ isDark }) {
+      return React.createElement('section', { className: `py-24 ${isDark ? 'bg-gradient-to-r from-green-900 to-green-800' : 'bg-gradient-to-r from-green-600 to-green-800'}` },
+        React.createElement('div', { className: 'max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white' },
+          React.createElement('h2', { className: 'text-4xl md:text-5xl font-bold mb-6' }, 'Ready to Transform Education?'),
+          React.createElement('p', { className: 'text-xl mb-10 opacity-90' }, 'Join thousands of schools and students already experiencing the Braintree difference'),
+          React.createElement('div', { className: 'flex flex-wrap justify-center gap-6' },
+            React.createElement('button', { className: 'bg-white text-green-700 px-10 py-4 rounded-full font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition' }, 'Get Started Today'),
+            React.createElement('button', { className: 'border-2 border-white text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-green-700 transition' }, 'Schedule a Demo')
+          )
+        )
+      );
+    }
+
+    // Footer
+    function Footer({ isDark }) {
+      return React.createElement('footer', { className: `py-12 ${isDark ? 'bg-gray-950' : 'bg-gray-900'} text-white` },
+        React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8' },
+          React.createElement('div', { className: 'grid md:grid-cols-4 gap-8 mb-8' },
+            React.createElement('div', null,
+              React.createElement('div', { className: 'flex items-center space-x-3 mb-4' },
+                React.createElement('div', { className: 'w-12 h-12 rounded-full flex items-center justify-center' },
+                  React.createElement('img', 
+                  { 
+                    src: './assets/Assets/logo.jpg',
+                    alt:'logo',
+                    className: 'text-white text-2xl font-bold' 
+                    })
+                ),
+                React.createElement('span', { className: 'text-xl font-bold' }, 'Braintree Company')
+              ),
+              React.createElement('p', { className: 'text-gray-400' }, 'Empowering education through innovation')
+            ),
+            React.createElement('div', null,
+              React.createElement('h4', { className: 'font-bold mb-4' }, 'Products'),
+              React.createElement('div', { className: 'space-y-2' },
+                React.createElement('a', { href: './arena.html', className: 'block text-gray-400 hover:text-white transition' }, 'Braintree Arena'),
+                React.createElement('a', { href: '#', className: 'block text-gray-400 hover:text-white transition' }, 'Braintree Academy'),
+                React.createElement('a', { href: '#', className: 'block text-gray-400 hover:text-white transition' }, 'Innovation Hub')
+              )
+            ),
+            React.createElement('div', null,
+              React.createElement('h4', { className: 'font-bold mb-4' }, 'Company'),
+              React.createElement('div', { className: 'space-y-2' },
+                React.createElement('a', { href: '#', className: 'block text-gray-400 hover:text-white transition' }, 'About Us'),
+                React.createElement('a', { href: '#team', className: 'block text-gray-400 hover:text-white transition' }, 'Our Team'),
+                React.createElement('a', { href: '#', className: 'block text-gray-400 hover:text-white transition' }, 'Contact')
+              )
+            ),
+            React.createElement('div', null,
+              React.createElement('h4', { className: 'font-bold mb-4' }, 'Connect'),
+              React.createElement('div', { className: 'flex space-x-4' },
+                ['F', 'T', 'Y'].map((letter, i) =>
+                  React.createElement('a', {
+                    key: i,
+                    href: 'https://www.youtube.com/@braintreearena3409',
+                    className: 'w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 transition'
+                  }, letter)
+                )
+              )
+            )
+          ),
+          React.createElement('div', { className: 'border-t border-gray-800 pt-8 text-center text-gray-400' },
+            React.createElement('p', null, '© 2026 Braintree Company. All rights reserved. Empowering Excellence in Education.')
+          )
+        )
+      );
+    }
+
+    // Render the app
+    createRoot(document.getElementById('root')).render(React.createElement(BraintreeCompanyHome));
+  </script>
 </body>
 </html>
